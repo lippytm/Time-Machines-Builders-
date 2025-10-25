@@ -27,6 +27,8 @@ jobs:
   cross-repo-sync:
     name: Cross-Repository Sync
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout this repository
@@ -68,6 +70,8 @@ jobs:
   ai-integration:
     name: AI Integration Update
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
