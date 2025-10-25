@@ -1,0 +1,75 @@
+name: Integration Issue
+description: Report an issue with cross-repository or external integrations
+title: "[INTEGRATION]: "
+labels: ["integration", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report issues with repository interconnections or external service integrations.
+
+  - type: dropdown
+    id: integration-type
+    attributes:
+      label: Integration Type
+      description: What type of integration is affected?
+      options:
+        - Cross-Repository (GitHub)
+        - AI Service (Huggingface)
+        - Automation (n8n)
+        - CDN/Edge (Cloudflare)
+        - AI Development (GitHub Copilot)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: repository
+    attributes:
+      label: Related Repository
+      description: Which repository is involved?
+      options:
+        - AI-Time-Machines
+        - Web3AI
+        - gatsby-starter-blog
+        - Transparency-Logic-Time-Machine-Bots-
+        - Time-Machines-Builders- (this repo)
+        - Other
+      multiple: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: Describe the integration issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Integration Behavior
+      description: What should happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Error Messages
+      description: Include any relevant logs or error messages
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other relevant information

@@ -1,0 +1,93 @@
+name: Cross-Repository Integration
+
+on:
+  repository_dispatch:
+    types: [trigger-integration]
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'Target repository for integration'
+        required: true
+        type: choice
+        options:
+          - AI-Time-Machines
+          - Web3AI
+          - gatsby-starter-blog
+          - Transparency-Logic-Time-Machine-Bots-
+      action:
+        description: 'Integration action to perform'
+        required: true
+        type: choice
+        options:
+          - sync
+          - notify
+          - deploy
+
+jobs:
+  cross-repo-sync:
+    name: Cross-Repository Sync
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Dispatch to target repository
+        if: github.event_name == 'workflow_dispatch'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: lippytm/${{ github.event.inputs.target_repo }}
+          event-type: time-machines-builders-update
+          client-payload: |
+            {
+              "source": "Time-Machines-Builders-",
+              "action": "${{ github.event.inputs.action }}",
+              "timestamp": "${{ github.event.head_commit.timestamp }}",
+              "ref": "${{ github.ref }}"
+            }
+
+      - name: Notify external integrations
+        env:
+          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
+        run: |
+          echo "Notifying external integrations..."
+          if [ -n "$N8N_WEBHOOK_URL" ]; then
+            curl -X POST "$N8N_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "source": "Time-Machines-Builders-",
+                "event": "integration-update",
+                "repository": "${{ github.repository }}",
+                "action": "${{ github.event.inputs.action || github.event.action }}"
+              }'
+          else
+            echo "N8N_WEBHOOK_URL not configured"
+          fi
+
+  ai-integration:
+    name: AI Integration Update
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger AI-Time-Machines integration
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: lippytm/AI-Time-Machines
+          event-type: builders-update
+          client-payload: |
+            {
+              "message": "Update from Time-Machines-Builders",
+              "timestamp": "${{ github.event.head_commit.timestamp }}"
+            }
+
+      - name: Log integration
+        run: |
+          echo "Integration triggered for:"
+          echo "- Repository: lippytm/AI-Time-Machines"
+          echo "- Event: builders-update"
+          echo "- Status: Success"
