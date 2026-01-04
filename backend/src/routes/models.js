@@ -3,6 +3,7 @@ import axios from 'axios';
 import { authenticate } from '../middleware/auth.js';
 import MLModel from '../models/MLModel.js';
 import Dataset from '../models/Dataset.js';
+import { apiLimiter, trainLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
  *       200:
  *         description: List of models
  */
-router.get('/', authenticate, async (req, res, next) => {
+router.get('/', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const models = await MLModel.findAll({
       where: { userId: req.user.id },
@@ -66,7 +67,7 @@ router.get('/', authenticate, async (req, res, next) => {
  *       201:
  *         description: Model created and training initiated
  */
-router.post('/', authenticate, async (req, res, next) => {
+router.post('/', authenticate, trainLimiter, async (req, res, next) => {
   try {
     const { name, type, datasetId, parameters } = req.body;
 
@@ -128,7 +129,7 @@ router.post('/', authenticate, async (req, res, next) => {
  *       200:
  *         description: Model details
  */
-router.get('/:id', authenticate, async (req, res, next) => {
+router.get('/:id', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const model = await MLModel.findOne({
       where: { id: req.params.id, userId: req.user.id },

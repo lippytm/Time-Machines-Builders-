@@ -1,6 +1,7 @@
 import express from 'express';
 import { authenticate } from '../middleware/auth.js';
 import Dataset from '../models/Dataset.js';
+import { apiLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ const router = express.Router();
  *       200:
  *         description: List of datasets
  */
-router.get('/', authenticate, async (req, res, next) => {
+router.get('/', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const datasets = await Dataset.findAll({
       where: { userId: req.user.id },
@@ -57,7 +58,7 @@ router.get('/', authenticate, async (req, res, next) => {
  *       201:
  *         description: Dataset created
  */
-router.post('/', authenticate, async (req, res, next) => {
+router.post('/', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const { name, description, data } = req.body;
 
@@ -93,7 +94,7 @@ router.post('/', authenticate, async (req, res, next) => {
  *       200:
  *         description: Dataset details
  */
-router.get('/:id', authenticate, async (req, res, next) => {
+router.get('/:id', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const dataset = await Dataset.findOne({
       where: { id: req.params.id, userId: req.user.id },
@@ -127,7 +128,7 @@ router.get('/:id', authenticate, async (req, res, next) => {
  *       200:
  *         description: Dataset rolled back
  */
-router.post('/:id/rollback', authenticate, async (req, res, next) => {
+router.post('/:id/rollback', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const dataset = await Dataset.findOne({
       where: { id: req.params.id, userId: req.user.id },

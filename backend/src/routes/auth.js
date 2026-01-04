@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import User from '../models/User.js';
+import { authLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ const generateToken = (userId) => {
  *       201:
  *         description: User created successfully
  */
-router.post('/register', async (req, res, next) => {
+router.post('/register', authLimiter, async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
@@ -90,7 +91,7 @@ router.post('/register', async (req, res, next) => {
  *       200:
  *         description: Login successful
  */
-router.post('/login', async (req, res, next) => {
+router.post('/login', authLimiter, async (req, res, next) => {
   try {
     const { email, password } = req.body;
 

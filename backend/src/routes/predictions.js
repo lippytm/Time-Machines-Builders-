@@ -3,6 +3,7 @@ import axios from 'axios';
 import { authenticate } from '../middleware/auth.js';
 import Prediction from '../models/Prediction.js';
 import MLModel from '../models/MLModel.js';
+import { apiLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
  *       200:
  *         description: List of predictions
  */
-router.get('/', authenticate, async (req, res, next) => {
+router.get('/', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const predictions = await Prediction.findAll({
       where: { userId: req.user.id },
@@ -61,7 +62,7 @@ router.get('/', authenticate, async (req, res, next) => {
  *       201:
  *         description: Prediction created
  */
-router.post('/', authenticate, async (req, res, next) => {
+router.post('/', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const { modelId, input } = req.body;
 
@@ -120,7 +121,7 @@ router.post('/', authenticate, async (req, res, next) => {
  *       200:
  *         description: Prediction details
  */
-router.get('/:id', authenticate, async (req, res, next) => {
+router.get('/:id', authenticate, apiLimiter, async (req, res, next) => {
   try {
     const prediction = await Prediction.findOne({
       where: { id: req.params.id, userId: req.user.id },
