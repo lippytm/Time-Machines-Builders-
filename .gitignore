@@ -1,2 +1,51 @@
 # Google App Engine generated folder
 appengine-generated/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.pytest_cache/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+backend/dist/
+
+# Database
+*.db
+*.sqlite
+postgres-data/
+
+# Docker
+.docker/
