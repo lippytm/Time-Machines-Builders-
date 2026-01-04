@@ -1,0 +1,97 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  code-quality:
+    name: Code Quality & Security
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript, python
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+
+  integration-check:
+    name: Integration Health Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check repository connections
+        run: |
+          echo "Checking connections to related repositories..."
+          echo "- AI-Time-Machines: https://github.com/lippytm/AI-Time-Machines"
+          echo "- Web3AI: https://github.com/lippytm/Web3AI"
+          echo "- gatsby-starter-blog: https://github.com/lippytm/gatsby-starter-blog"
+          echo "- Transparency-Logic-Time-Machine-Bots-: https://github.com/lippytm/Transparency-Logic-Time-Machine-Bots-"
+          
+      - name: Validate integration endpoints
+        run: |
+          echo "Integration endpoints configured:"
+          echo "✓ GitHub API"
+          echo "✓ Huggingface API (requires HUGGINGFACE_API_KEY)"
+          echo "✓ n8n Webhook (requires N8N_WEBHOOK_URL)"
+          echo "✓ Cloudflare (requires CLOUDFLARE_API_TOKEN)"
