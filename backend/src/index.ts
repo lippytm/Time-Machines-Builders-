@@ -54,18 +54,20 @@ class Server {
       // Initialize PostgreSQL (optional - will log error if not configured)
       try {
         await postgresService.initialize();
-      } catch (error) {
+      } catch (error: any) {
         console.warn('⚠ PostgreSQL not configured or unavailable (optional)');
+        console.warn('  Error:', error.message);
       }
 
       // Initialize MongoDB (optional - will log error if not configured)
       try {
         await mongoService.initialize();
-      } catch (error) {
+      } catch (error: any) {
         console.warn('⚠ MongoDB not configured or unavailable (optional)');
+        console.warn('  Error:', error.message);
       }
-    } catch (error) {
-      console.error('Database initialization error:', error);
+    } catch (error: any) {
+      console.error('Database initialization error:', error.message);
       console.log('Continuing without database connections...');
     }
   }

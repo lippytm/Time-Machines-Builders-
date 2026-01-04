@@ -22,14 +22,23 @@ export class OpenAIController {
         maxTokens,
       });
 
-      // Save to both databases
-      await postgresService.savePrompt(prompt, response, model || 'gpt-3.5-turbo', temperature || 0.7);
-      await mongoService.saveAIOutput({
-        prompt,
-        response,
-        model: model || 'gpt-3.5-turbo',
-        metadata: { temperature, maxTokens },
-      });
+      // Save to databases (with individual error handling)
+      try {
+        await postgresService.savePrompt(prompt, response, model || 'gpt-3.5-turbo', temperature || 0.7);
+      } catch (dbError: any) {
+        console.warn('Failed to save to PostgreSQL:', dbError.message);
+      }
+
+      try {
+        await mongoService.saveAIOutput({
+          prompt,
+          response,
+          model: model || 'gpt-3.5-turbo',
+          metadata: { temperature, maxTokens },
+        });
+      } catch (dbError: any) {
+        console.warn('Failed to save to MongoDB:', dbError.message);
+      }
 
       res.json({ response });
     } catch (error: any) {
@@ -52,12 +61,16 @@ export class OpenAIController {
 
       const summary = await openaiService.summarizeText(text);
 
-      await mongoService.saveAIOutput({
-        prompt: `Summarize: ${text.substring(0, 100)}...`,
-        response: summary,
-        model: 'gpt-3.5-turbo',
-        metadata: { operation: 'summarize' },
-      });
+      try {
+        await mongoService.saveAIOutput({
+          prompt: `Summarize: ${text.substring(0, 100)}...`,
+          response: summary,
+          model: 'gpt-3.5-turbo',
+          metadata: { operation: 'summarize' },
+        });
+      } catch (dbError: any) {
+        console.warn('Failed to save to MongoDB:', dbError.message);
+      }
 
       res.json({ summary });
     } catch (error: any) {
@@ -80,7 +93,11 @@ export class OpenAIController {
 
       const embedding = await openaiService.createEmbedding(text);
 
-      await postgresService.saveEmbedding(text, embedding);
+      try {
+        await postgresService.saveEmbedding(text, embedding);
+      } catch (dbError: any) {
+        console.warn('Failed to save embedding to PostgreSQL:', dbError.message);
+      }
 
       res.json({ embedding, dimensions: embedding.length });
     } catch (error: any) {
@@ -119,19 +136,23 @@ export class OpenAIController {
         presencePenalty,
       });
 
-      await mongoService.saveAIOutput({
-        prompt,
-        response,
-        model: model || 'gpt-3.5-turbo',
-        metadata: {
-          systemMessage,
-          temperature,
-          maxTokens,
-          topP,
-          frequencyPenalty,
-          presencePenalty,
-        },
-      });
+      try {
+        await mongoService.saveAIOutput({
+          prompt,
+          response,
+          model: model || 'gpt-3.5-turbo',
+          metadata: {
+            systemMessage,
+            temperature,
+            maxTokens,
+            topP,
+            frequencyPenalty,
+            presencePenalty,
+          },
+        });
+      } catch (dbError: any) {
+        console.warn('Failed to save to MongoDB:', dbError.message);
+      }
 
       res.json({ response });
     } catch (error: any) {
@@ -154,9 +175,13 @@ export class OpenAIController {
 
       const embeddings = await openaiService.batchEmbeddings(texts);
 
-      // Save each embedding
+      // Save each embedding with individual error handling
       for (let i = 0; i < texts.length; i++) {
-        await postgresService.saveEmbedding(texts[i], embeddings[i]);
+        try {
+          await postgresService.saveEmbedding(texts[i], embeddings[i]);
+        } catch (dbError: any) {
+          console.warn(`Failed to save embedding ${i} to PostgreSQL:`, dbError.message);
+        }
       }
 
       res.json({ embeddings, count: embeddings.length });

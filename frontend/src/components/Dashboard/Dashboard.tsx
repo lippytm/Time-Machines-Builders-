@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
 
   const stats = {
     totalRequests: history.length,
-    models: [...new Set(history.map(h => h.model))],
+    models: Array.from(new Set(history.map(h => h.model))),
   };
 
   return (
@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
