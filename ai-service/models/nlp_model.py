@@ -4,25 +4,24 @@ import json
 
 
 class NLPProcessor:
-    """NLP processor using Hugging Face transformers"""
+    """NLP processor for text analysis tasks"""
     
     def __init__(self):
         self.model = None
-        self.tokenizer = None
         self.config = {}
         
     async def train(self, data: Dict[str, Any], parameters: Dict[str, Any], model_path: str) -> Dict[str, float]:
         """Train or fine-tune NLP model"""
         try:
-            # For demonstration, we'll use a simple sentiment analysis setup
-            # In production, this would use actual Hugging Face models
+            # For demonstration purposes with lightweight dependencies
+            # In production, integrate with actual Hugging Face models or other NLP libraries
             
             task = parameters.get('task', 'sentiment-analysis')
             
             # Simulate training
             self.config = {
                 'task': task,
-                'model_name': parameters.get('model_name', 'distilbert-base-uncased'),
+                'model_type': 'simple_rule_based',
                 'trained': True,
             }
             
@@ -45,38 +44,51 @@ class NLPProcessor:
         with open(f"{model_path}.json", 'r') as f:
             self.config = json.load(f)
     
+    def _simple_sentiment(self, text: str) -> Dict[str, Any]:
+        """Simple rule-based sentiment analysis
+        
+        Note: This is a basic implementation for demonstration.
+        For production use, integrate with libraries like:
+        - vaderSentiment for rule-based sentiment
+        - Hugging Face transformers for deep learning models
+        - spaCy with sentiment extensions
+        """
+        # Basic positive/negative word detection
+        positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 
+                         'love', 'best', 'awesome', 'perfect']
+        negative_words = ['bad', 'terrible', 'awful', 'poor', 'horrible', 'worst',
+                         'hate', 'disappointing', 'useless', 'fail']
+        
+        text_lower = text.lower()
+        pos_count = sum(1 for word in positive_words if word in text_lower)
+        neg_count = sum(1 for word in negative_words if word in text_lower)
+        
+        if pos_count > neg_count:
+            sentiment = 'positive'
+            score = min(0.6 + (pos_count * 0.1), 0.95)
+        elif neg_count > pos_count:
+            sentiment = 'negative'
+            score = min(0.6 + (neg_count * 0.1), 0.95)
+        else:
+            sentiment = 'neutral'
+            score = 0.5
+        
+        return {
+            'sentiment': sentiment,
+            'score': score,
+        }
+    
     async def predict(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Make NLP predictions"""
         try:
             text = input_data.get('text', '')
             task = self.config.get('task', 'sentiment-analysis')
             
-            # Simplified prediction logic
             if task == 'sentiment-analysis':
-                # Simple sentiment based on positive/negative words
-                positive_words = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic']
-                negative_words = ['bad', 'terrible', 'awful', 'poor', 'horrible', 'worst']
-                
-                text_lower = text.lower()
-                pos_count = sum(1 for word in positive_words if word in text_lower)
-                neg_count = sum(1 for word in negative_words if word in text_lower)
-                
-                if pos_count > neg_count:
-                    sentiment = 'positive'
-                    score = 0.7 + (pos_count * 0.1)
-                elif neg_count > pos_count:
-                    sentiment = 'negative'
-                    score = 0.7 + (neg_count * 0.1)
-                else:
-                    sentiment = 'neutral'
-                    score = 0.5
-                
+                result = self._simple_sentiment(text)
                 return {
-                    'output': {
-                        'sentiment': sentiment,
-                        'score': min(score, 0.99),
-                    },
-                    'confidence': min(score, 0.99),
+                    'output': result,
+                    'confidence': result['score'],
                 }
             
             return {

@@ -214,10 +214,15 @@ If ports 3000, 4000, or 8000 are already in use:
 - Update docker-compose.yml port mappings
 
 ### AI Service Dependencies
-Some Python packages (TensorFlow, PyTorch) are large:
-- Installation may take time
-- Ensure you have sufficient disk space
-- Consider using CPU-only versions for development
+The AI service uses lightweight statistical methods:
+- No heavy ML frameworks (TensorFlow/PyTorch) by default
+- Fast installation and startup
+- For production ML, add required frameworks to requirements.txt:
+  ```
+  tensorflow==2.15.0  # For deep learning models
+  torch==2.1.1        # Alternative to TensorFlow
+  transformers==4.35.2 # For Hugging Face models
+  ```
 
 ### Frontend Build Issues
 ```bash

@@ -10,10 +10,12 @@ A comprehensive full-stack application for time-series forecasting, AI/ML model 
 
 - **Frontend**: React with TailwindCSS for responsive UI
 - **Backend**: Express.js with RESTful APIs
-- **AI/ML**: Python FastAPI microservice with TensorFlow and Hugging Face
+- **AI/ML**: Python FastAPI microservice with statistical time-series forecasting and basic NLP
 - **Database**: PostgreSQL with Sequelize ORM
 - **Authentication**: JWT-based auth with OAuth2 support
 - **Deployment**: Docker containerization with CI/CD via GitHub Actions
+
+> **Note**: The AI/ML implementation uses lightweight statistical methods and rule-based approaches for demonstration purposes. For production use, integrate with TensorFlow, PyTorch, or Hugging Face transformers as needed.
 
 ### Project Structure
 
