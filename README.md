@@ -19,8 +19,10 @@ This repository integrates with:
 
 ### AI & Development
 - ✅ **GitHub Copilot** - AI-assisted development
+- ✅ **OpenAI** - GPT models and embeddings integration
 - ✅ **Huggingface** - AI model training and deployment
 - ✅ **GitHub Actions** - Automated workflows and CI/CD
+- ✅ **Full Stack Application** - React frontend + Node.js backend
 
 ### Automation & Services
 - ✅ **n8n** - Workflow automation platform
@@ -29,9 +31,13 @@ This repository integrates with:
 
 ## 📋 Features
 
+- **Full Stack AI Platform**: Complete React + Node.js application with OpenAI integration
+- **OpenAI GPT Integration**: Text generation, summarization, and embeddings
+- **Database Support**: PostgreSQL for structured data, MongoDB for unstructured data
+- **Modern UI**: Material-UI components with responsive design
 - **Automated CI/CD**: Continuous integration with security scanning and code quality checks
 - **Cross-Repository Integration**: Seamlessly sync and coordinate across multiple repositories
-- **AI Integration**: Connect with Huggingface for model training and deployment
+- **AI Integration**: Connect with Huggingface and OpenAI for model training and deployment
 - **Workflow Automation**: n8n integration for complex automation scenarios
 - **Security First**: CodeQL analysis, Trivy scanning, and dependency reviews
 - **Extensible Architecture**: Easy to add new integrations and workflows
@@ -41,13 +47,53 @@ This repository integrates with:
 ### Prerequisites
 
 - GitHub account
-- Basic understanding of GitHub Actions
+- Node.js (v18 or higher)
+- npm or yarn
+- (Optional) PostgreSQL and MongoDB for database features
 - (Optional) API keys for external integrations:
+  - **OpenAI API key** (required for AI features)
   - Huggingface API key
   - n8n webhook URL
   - Cloudflare API token
 
-### Quick Start
+### Quick Start - Full Stack Application
+
+For detailed setup instructions, see [FULLSTACK_SETUP.md](FULLSTACK_SETUP.md)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/lippytm/Time-Machines-Builders-.git
+cd Time-Machines-Builders-
+
+# 2. Set up backend
+cd backend
+npm install
+cp .env.example .env
+# Edit .env and add your OPENAI_API_KEY
+npm run dev
+
+# 3. Set up frontend (in a new terminal)
+cd frontend
+npm install
+npm start
+```
+
+Visit `http://localhost:3000` to access the application.
+
+### Quick Start - Docker
+
+```bash
+# Set OpenAI API key
+export OPENAI_API_KEY=your_api_key_here
+
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+### Quick Start - GitHub Workflows
 
 1. **Fork or Clone** this repository
 2. **Configure Secrets** (for integrations):
