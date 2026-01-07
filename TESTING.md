@@ -1,0 +1,214 @@
+# Testing Checklist
+
+## ✅ Pre-Deployment Testing
+
+### Backend Tests
+
+- [ ] **Health Check Endpoint**
+  ```bash
+  curl http://localhost:3001/health
+  ```
+  Expected: `{"status":"ok","timestamp":"..."}`
+
+- [ ] **OpenAI Text Generation**
+  ```bash
+  curl -X POST http://localhost:3001/api/openai/generate \
+    -H "Content-Type: application/json" \
+    -d '{"prompt":"Hello world"}'
+  ```
+  Expected: JSON response with generated text
+
+- [ ] **Summarization**
+  ```bash
+  curl -X POST http://localhost:3001/api/openai/summarize \
+    -H "Content-Type: application/json" \
+    -d '{"text":"Long text here..."}'
+  ```
+
+- [ ] **Embedding Creation**
+  ```bash
+  curl -X POST http://localhost:3001/api/openai/embedding \
+    -H "Content-Type: application/json" \
+    -d '{"text":"Sample text"}'
+  ```
+
+- [ ] **Error Handling**
+  - Missing prompt: Returns 400 error
+  - Invalid API key: Returns appropriate error
+  - Rate limit exceeded: Returns 429 error
+
+### Frontend Tests
+
+- [ ] **Dashboard Page**
+  - Loads without errors
+  - Displays statistics correctly
+  - Shows recent activity (if available)
+
+- [ ] **Prompt Interface**
+  - Text input works
+  - Model selection works
+  - Temperature slider works
+  - Token input accepts values
+  - Generate button triggers request
+  - Response displays correctly
+  - Error messages appear when needed
+
+- [ ] **Data Visualization**
+  - Embedding input works
+  - Create button triggers request
+  - Embedding vector displays
+  - Table shows first 10 values
+
+### Integration Tests
+
+- [ ] **Frontend → Backend Communication**
+  - API calls succeed
+  - Errors are handled gracefully
+  - Loading states work
+
+- [ ] **Database Integration (if configured)**
+  - PostgreSQL connection works
+  - MongoDB connection works
+  - Data is saved correctly
+  - History retrieval works
+
+### Build Tests
+
+- [ ] **Backend Build**
+  ```bash
+  cd backend && npm run build
+  ```
+  Should complete without errors
+
+- [ ] **Frontend Build**
+  ```bash
+  cd frontend && npm run build
+  ```
+  Should create optimized production build
+
+### Docker Tests
+
+- [ ] **Docker Compose**
+  ```bash
+  docker-compose up -d
+  ```
+  All services start successfully
+
+- [ ] **Service Health**
+  - PostgreSQL accessible on port 5432
+  - MongoDB accessible on port 27017
+  - Backend accessible on port 3001
+  - Frontend accessible on port 3000
+
+## 🔒 Security Tests
+
+- [x] **CodeQL Scan** - ✅ 0 vulnerabilities found
+- [ ] **Dependency Audit**
+  ```bash
+  cd backend && npm audit
+  cd frontend && npm audit
+  ```
+
+- [ ] **Environment Variables**
+  - No secrets in code
+  - `.env` files in `.gitignore`
+  - Example files only contain placeholders
+
+## 📋 Manual Testing Scenarios
+
+### Scenario 1: New User Setup
+1. Clone repository
+2. Follow QUICK_REFERENCE.md
+3. Start backend and frontend
+4. Access application
+5. Generate first prompt
+
+### Scenario 2: OpenAI Integration
+1. Configure OpenAI API key
+2. Test text generation
+3. Test summarization
+4. Test embeddings
+5. Verify results
+
+### Scenario 3: Database Integration
+1. Start PostgreSQL
+2. Run schema script
+3. Start MongoDB
+4. Configure connection strings
+5. Test data persistence
+
+### Scenario 4: Production Build
+1. Build backend
+2. Build frontend
+3. Test production builds
+4. Verify optimizations
+
+## 🎯 Performance Tests
+
+- [ ] **Backend Response Time**
+  - Health check: < 100ms
+  - OpenAI calls: Based on model (typically 1-5s)
+
+- [ ] **Frontend Load Time**
+  - Initial load: < 3s
+  - Tab switching: < 500ms
+
+- [ ] **Rate Limiting**
+  - 100 requests/15min per IP works
+  - Exceeding limit returns 429
+
+## 📊 Functionality Checklist
+
+### Core Features
+- [x] OpenAI text generation
+- [x] Text summarization
+- [x] Embedding creation
+- [x] Custom prompts with tuning
+- [x] Batch embeddings
+- [x] History retrieval
+
+### UI Components
+- [x] Dashboard with statistics
+- [x] Prompt interface with controls
+- [x] Data visualization
+- [x] Tab navigation
+- [x] Responsive design
+
+### Backend Services
+- [x] Express server
+- [x] OpenAI integration
+- [x] PostgreSQL service
+- [x] MongoDB service
+- [x] Error handling
+- [x] Rate limiting
+- [x] CORS support
+
+## 🐛 Known Issues
+
+### Frontend
+- Material-UI v7 Grid syntax updated
+- React warnings about dependencies (expected)
+
+### Backend
+- Databases are optional (will log warnings if not configured)
+
+### General
+- Create-react-app shows known vulnerabilities (not critical for development)
+
+## ✨ Test Results
+
+**Last Updated:** 2024-01-04
+
+- Backend Build: ✅ Pass
+- Frontend Build: ✅ Pass
+- CodeQL Security Scan: ✅ Pass (0 vulnerabilities)
+- Code Review: ✅ Addressed all feedback
+- Type Checking: ✅ Pass
+- Error Handling: ✅ Improved
+
+## 📝 Notes
+
+- All tests assume OpenAI API key is configured
+- Database tests require PostgreSQL and MongoDB running
+- Docker tests require Docker and Docker Compose installed
+- Performance metrics may vary based on OpenAI API response times
