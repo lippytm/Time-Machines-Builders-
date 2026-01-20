@@ -169,15 +169,44 @@ When adding cross-repository features:
 
 Before submitting a PR, ensure:
 
-- [ ] Code follows project style
-- [ ] Documentation is updated
-- [ ] Workflows pass successfully
-- [ ] Integration tests completed
-- [ ] No secrets exposed in code
-- [ ] PR template filled out
-- [ ] Related issues linked
+- [ ] Code follows project style and conventions
+- [ ] Documentation is updated (README, inline comments, etc.)
+- [ ] All workflows pass successfully (lint-test, CodeQL, dependency-review)
+- [ ] Integration tests completed (if applicable)
+- [ ] No secrets or sensitive data exposed in code
+- [ ] PR template filled out completely
+- [ ] Related issues linked (use "Closes #123" or "Fixes #456")
+- [ ] Code has been tested locally
+- [ ] TypeScript compilation succeeds without errors
+- [ ] No new linter warnings introduced
+- [ ] Tests pass (frontend and backend)
+- [ ] Branch is up-to-date with target branch (main or develop)
+- [ ] Commit messages follow conventional commit format
+- [ ] Changes are minimal and focused on the issue being addressed
 
 ## Testing
+
+### Local Testing
+
+Before submitting changes, test your code locally:
+
+#### Frontend Testing
+```bash
+cd frontend
+npm install
+npm test          # Run tests
+npm run build     # Ensure build succeeds
+npx tsc --noEmit  # Type check
+```
+
+#### Backend Testing
+```bash
+cd backend
+npm install
+npm test          # Run tests (when available)
+npm run build     # Ensure build succeeds
+npx tsc --noEmit  # Type check
+```
 
 ### Workflow Testing
 
@@ -201,12 +230,61 @@ For cross-repository integrations:
 4. Monitor workflow runs
 5. Check logs for errors
 
+### Testing Requirements
+
+- **Unit Tests**: Write tests for new functions and components
+- **Integration Tests**: Test interactions between components
+- **End-to-End Tests**: Test complete user workflows (when applicable)
+- **Security Tests**: Verify no secrets are exposed, inputs are validated
+- **Performance Tests**: Ensure changes don't degrade performance (for large changes)
+
+### Test Coverage
+
+- Aim for at least 80% code coverage for new code
+- Critical paths should have 100% coverage
+- Tests should be meaningful, not just for coverage numbers
+
+### Continuous Integration
+
+All PRs must pass the following CI checks:
+
+1. **Lint and Test** (`lint-test.yml`):
+   - Linting (when lint script exists)
+   - Type checking (TypeScript)
+   - Unit tests
+   - Build verification
+
+2. **CodeQL Analysis** (`codeql.yml`):
+   - Security vulnerability scanning
+   - Code quality analysis
+
+3. **Dependency Review** (`dependency-review.yml`):
+   - Dependency vulnerability scanning
+   - License compatibility checking
+
 ### Security Testing
 
 - Never commit secrets or tokens
-- Use repository secrets
+- Use repository secrets for sensitive data
 - Test with minimal permissions first
 - Verify secret handling in workflows
+- Run CodeQL analysis before submitting
+- Check for common vulnerabilities (XSS, SQL injection, etc.)
+
+### Manual Testing Checklist
+
+For UI changes:
+- [ ] Test in Chrome, Firefox, and Safari
+- [ ] Test responsive design (mobile, tablet, desktop)
+- [ ] Test accessibility (keyboard navigation, screen readers)
+- [ ] Verify no console errors
+
+For API changes:
+- [ ] Test all endpoints with various inputs
+- [ ] Test error handling
+- [ ] Verify rate limiting works
+- [ ] Check authentication/authorization
+- [ ] Test with invalid/malicious inputs
 
 ## Documentation
 

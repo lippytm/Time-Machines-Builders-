@@ -43,15 +43,19 @@ When reporting a vulnerability, please include:
 - **Proof of concept** (if applicable)
 - **Suggested remediation** (if you have ideas)
 
-### 4. Response Timeline
+### 4. Response Timeline (SLA)
 
-- **Initial Response**: Within 48 hours
-- **Status Update**: Within 7 days
-- **Fix Timeline**: Depends on severity
-  - Critical: Within 7 days
-  - High: Within 14 days
-  - Medium: Within 30 days
-  - Low: Next release cycle
+We aim to respond to security vulnerabilities according to the following Service Level Agreement (SLA):
+
+- **Initial Response**: Within 48 hours of report
+- **Status Update**: Within 7 days of report
+- **Fix Timeline**: Depends on severity (best effort)
+  - **Critical**: Within 7 days
+  - **High**: Within 14 days
+  - **Medium**: Within 30 days
+  - **Low**: Next release cycle
+
+**Note**: These timelines are best-effort targets. Actual resolution time may vary depending on complexity, resources, and impact assessment.
 
 ## Security Measures
 
@@ -147,10 +151,17 @@ External integrations follow security guidelines:
 
 ### Repository Security
 
-- **Branch Protection**: Main branches are protected
-- **Required Reviews**: PRs require approval
-- **Status Checks**: Required CI checks must pass
+- **Branch Protection**: Main and develop branches are protected with the following rules:
+  - Require pull request reviews before merging
+  - Require status checks to pass before merging
+  - Require conversation resolution before merging
+  - Require linear history
+  - Do not allow bypassing the above settings
+- **Required Reviews**: PRs require at least one approval
+- **Status Checks**: Required CI checks must pass (lint-test, CodeQL, dependency-review)
 - **Signed Commits**: Recommended for maintainers
+
+**Note**: Contributors should target the `develop` branch for new features and bug fixes. The `main` branch is reserved for production-ready code.
 
 ## Vulnerability Disclosure
 
