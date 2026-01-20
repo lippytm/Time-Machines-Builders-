@@ -118,7 +118,8 @@ jobs:
           echo "  # aws s3 sync frontend/build s3://\${{ vars.S3_BUCKET }} ..."
           echo ""
           echo "  # Azure Static Web Apps:"
-          echo "  # az staticwebapp deploy ..."echo ""
+          echo "  # az staticwebapp deploy ..."
+          echo ""
           echo "  # GCP App Engine:"
           echo "  # gcloud app deploy ..."
           echo ""
@@ -149,7 +150,7 @@ jobs:
       - name: Notify deployment status
         if: always()
         run: |
-          echo "Deployment ${{ job.status }} for environment: ..."
+          echo "Deployment ${{ job.status }} for environment: ${{ matrix.environment }}"
           # Example Slack notification (requires SLACK_WEBHOOK_URL):
           # curl -X POST -H 'Content-type: application/json' \
           #   --data '{"text":"Deployment: ${{ job.status }}"}' \
