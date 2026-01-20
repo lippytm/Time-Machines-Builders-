@@ -13,7 +13,7 @@ import { BaseAdapter } from '../factory';
 export interface EVMConfig {
   rpcUrl: string;
   chainId: number;
-  privateKey?: string; // TODO: Use secure key management in production
+  privateKey?: string; // TODO: Use secure key management (AWS Secrets Manager, HashiCorp Vault, or Azure Key Vault)
 }
 
 export class EVMAdapter implements BaseAdapter {

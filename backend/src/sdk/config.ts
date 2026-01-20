@@ -55,13 +55,17 @@ export interface Web3Config {
   evm: {
     rpcUrl: string;
     chainId: number;
-    privateKey?: string; // TODO: Use secure key management
+    // Note: Private keys should be loaded from secure key management systems (AWS Secrets Manager, HashiCorp Vault, etc.)
+    // This is a placeholder for development only - never commit actual private keys
+    privateKey?: string;
   };
   // Solana
   solana: {
     rpcUrl: string;
     network: 'mainnet-beta' | 'testnet' | 'devnet';
-    privateKey?: string; // TODO: Use secure key management
+    // Note: Private keys should be loaded from secure key management systems
+    // This is a placeholder for development only - never commit actual private keys
+    privateKey?: string;
   };
   // Anchor (Solana framework) - placeholder
   anchor: {

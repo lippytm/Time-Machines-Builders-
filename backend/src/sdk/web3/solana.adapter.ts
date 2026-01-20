@@ -13,7 +13,7 @@ import { BaseAdapter } from '../factory';
 export interface SolanaConfig {
   rpcUrl: string;
   network: 'mainnet-beta' | 'testnet' | 'devnet';
-  privateKey?: string; // TODO: Use secure key management
+  privateKey?: string; // TODO: Use secure key management (AWS Secrets Manager, HashiCorp Vault, or Azure Key Vault)
 }
 
 export class SolanaAdapter implements BaseAdapter {
@@ -26,9 +26,9 @@ export class SolanaAdapter implements BaseAdapter {
       const { Connection, Keypair } = require('@solana/web3.js');
       this.connection = new Connection(config.rpcUrl, 'confirmed');
       
+      // Note: Private key parsing not implemented - use secure key management in production
       if (config.privateKey) {
-        // TODO: Parse private key to Keypair
-        console.warn('Solana private key parsing not implemented');
+        // TODO: Implement secure private key loading
       }
     } catch (error) {
       console.warn('Solana web3.js not available. Install with: npm install @solana/web3.js');

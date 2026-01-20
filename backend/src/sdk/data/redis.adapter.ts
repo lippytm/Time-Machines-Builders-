@@ -33,7 +33,7 @@ export class RedisAdapter implements BaseAdapter {
   }
 
   isConnected(): boolean {
-    return this.client !== null && this.client.isReady;
+    return this.client !== null && this.client.isReady === true;
   }
 
   async disconnect(): Promise<void> {

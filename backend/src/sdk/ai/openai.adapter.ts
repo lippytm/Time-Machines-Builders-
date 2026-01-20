@@ -44,26 +44,28 @@ export class OpenAIAdapter implements BaseAdapter {
 
   /**
    * Generate text completion
+   * Note: Stub implementation - to be implemented when integrating with production @lippytm/ai-sdk
    * TODO: Align with @lippytm/ai-sdk interface
    */
   async generateText(prompt: string, options?: any): Promise<string> {
     if (!this.isConnected()) {
       throw new Error('OpenAI client not initialized');
     }
-    // TODO: Implement text generation
-    throw new Error('Not implemented - TODO');
+    // Stub - implementation pending integration with @lippytm/ai-sdk
+    throw new Error('Not implemented - awaiting @lippytm/ai-sdk integration');
   }
 
   /**
    * Create embeddings
+   * Note: Stub implementation - to be implemented when integrating with production @lippytm/ai-sdk
    * TODO: Align with @lippytm/ai-sdk interface
    */
   async createEmbedding(text: string): Promise<number[]> {
     if (!this.isConnected()) {
       throw new Error('OpenAI client not initialized');
     }
-    // TODO: Implement embedding creation
-    throw new Error('Not implemented - TODO');
+    // Stub - implementation pending integration with @lippytm/ai-sdk
+    throw new Error('Not implemented - awaiting @lippytm/ai-sdk integration');
   }
 }
 
