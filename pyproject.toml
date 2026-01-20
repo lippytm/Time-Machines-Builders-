@@ -1,0 +1,103 @@
+# Time Machines Builders - Python SDK Adapter Notes
+# 
+# This repository is primarily Node.js/TypeScript, but this file provides
+# guidance for implementing equivalent adapters in Python.
+#
+# To use these integrations in Python, install the following packages:
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "time-machines-builders-python"
+version = "1.0.0"
+description = "Python adapter notes for Time Machines Builders AI/Web3 integration"
+readme = "README.md"
+requires-python = ">=3.8"
+
+# Optional dependencies for AI/Web3 integration
+# Install with: pip install -e ".[ai,web3,messaging,data]"
+
+[project.optional-dependencies]
+
+# AI Dependencies
+ai = [
+    "openai>=1.6.0",              # OpenAI SDK
+    "huggingface-hub>=0.20.0",    # Hugging Face inference
+    "transformers>=4.36.0",       # Hugging Face transformers (heavy)
+    "langchain>=0.1.0",           # LangChain framework
+    "llama-index>=0.9.0",         # LlamaIndex framework
+]
+
+# Vector Stores (optional heavy dependencies)
+vectorstores = [
+    "pinecone-client>=3.0.0",     # Pinecone vector database
+    "weaviate-client>=3.25.0",    # Weaviate vector database
+    "chromadb>=0.4.0",            # ChromaDB vector database
+]
+
+# Web3 Dependencies
+web3 = [
+    "web3>=6.13.0",               # Ethereum and EVM chains
+    "solana>=0.30.0",             # Solana blockchain
+    "anchorpy>=0.18.0",           # Anchor framework for Solana
+]
+
+# Messaging Dependencies
+messaging = [
+    "slack-sdk>=3.26.0",          # Slack API
+    "discord.py>=2.3.0",          # Discord API
+]
+
+# Data Dependencies
+data = [
+    "psycopg2-binary>=2.9.0",     # PostgreSQL (or asyncpg for async)
+    "redis>=5.0.0",               # Redis
+    "boto3>=1.34.0",              # AWS S3
+    "ipfshttpclient>=0.8.0",      # IPFS
+]
+
+# Development Dependencies
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.12.0",
+    "mypy>=1.7.0",
+]
+
+all = [
+    "time-machines-builders-python[ai,vectorstores,web3,messaging,data,dev]",
+]
+
+# Example Python adapter structure:
+#
+# sdk/
+#   __init__.py
+#   config.py              # Configuration loader (similar to config.ts)
+#   factory.py             # Factory pattern for creating adapters
+#   ai/
+#     openai_adapter.py    # OpenAI client wrapper
+#     huggingface_adapter.py
+#     langchain_adapter.py
+#     pinecone_adapter.py
+#   web3/
+#     evm_adapter.py       # Web3.py wrapper for EVM
+#     solana_adapter.py    # Solana client wrapper
+#   messaging/
+#     slack_adapter.py     # Slack SDK wrapper
+#     discord_adapter.py   # Discord.py wrapper
+#   data/
+#     postgres_adapter.py  # psycopg2/asyncpg wrapper
+#     redis_adapter.py     # redis-py wrapper
+#     s3_adapter.py        # boto3 wrapper
+#     ipfs_adapter.py      # ipfshttpclient wrapper
+#
+# Usage example:
+#   from sdk import load_config, SDKFactory
+#   
+#   config = load_config()
+#   factory = SDKFactory(config)
+#   
+#   openai = factory.create_ai_adapter('openai')
+#   evm = factory.create_web3_adapter('evm')
