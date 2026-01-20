@@ -150,11 +150,15 @@ export function loadSDKConfig(): SDKConfig {
       evm: {
         rpcUrl: process.env.EVM_RPC_URL || 'https://eth-mainnet.g.alchemy.com/v2/demo',
         chainId: parseInt(process.env.EVM_CHAIN_ID || '1'),
+        // Warning: Never commit private keys to source control
+        // Use environment variables from secure key management systems only
         privateKey: process.env.EVM_PRIVATE_KEY,
       },
       solana: {
         rpcUrl: process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com',
         network: (process.env.SOLANA_NETWORK as any) || 'mainnet-beta',
+        // Warning: Never commit private keys to source control
+        // Use environment variables from secure key management systems only
         privateKey: process.env.SOLANA_PRIVATE_KEY,
       },
       anchor: {

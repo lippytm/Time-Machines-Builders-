@@ -24,9 +24,9 @@ async function testConfigLoader() {
     console.log(`  Hugging Face: ${config.ai.huggingface.apiKey ? '✓ Configured' : '✗ Not configured'}`);
     console.log(`  LangChain: ${config.ai.langchain.enabled ? '✓ Enabled' : '✗ Disabled'}`);
     console.log(`  LlamaIndex: ${config.ai.llamaindex.enabled ? '✓ Enabled' : '✗ Disabled'}`);
-    console.log(`  Pinecone: ${config.ai.vectorStores.pinecone ? '✓ Configured' : '✗ Not configured'}`);
-    console.log(`  Weaviate: ${config.ai.vectorStores.weaviate ? '✓ Configured' : '✗ Not configured'}`);
-    console.log(`  Chroma: ${config.ai.vectorStores.chroma ? '✓ Configured' : '✗ Not configured'}\n`);
+    console.log(`  Pinecone: ${config.ai.vectorStores.pinecone?.apiKey ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  Weaviate: ${config.ai.vectorStores.weaviate?.url ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  Chroma: ${config.ai.vectorStores.chroma?.url ? '✓ Configured' : '✗ Not configured'}\n`);
 
     // Display Web3 configuration
     console.log('⛓️  Web3 Configuration:');

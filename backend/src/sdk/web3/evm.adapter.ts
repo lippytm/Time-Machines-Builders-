@@ -27,7 +27,13 @@ export class EVMAdapter implements BaseAdapter {
       this.provider = new ethers.JsonRpcProvider(config.rpcUrl);
       
       if (config.privateKey) {
-        this.wallet = new ethers.Wallet(config.privateKey, this.provider);
+        // Warning: Private keys should be loaded from secure key management in production
+        // Basic validation: check if it looks like a valid private key format
+        if (!config.privateKey.startsWith('0x') || config.privateKey.length !== 66) {
+          console.warn('Invalid private key format. Expected 0x-prefixed 64-character hex string.');
+        } else {
+          this.wallet = new ethers.Wallet(config.privateKey, this.provider);
+        }
       }
     } catch (error) {
       console.warn('Ethers.js not available. Install with: npm install ethers');
