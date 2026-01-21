@@ -56,6 +56,28 @@ This repository integrates with:
   - n8n webhook URL
   - Cloudflare API token
 
+### Optional Heavy Dependencies
+
+This project supports optional heavy ML/AI dependencies via npm's `optionalDependencies`. These are not installed by default to keep the base installation lightweight:
+
+- **@huggingface/transformers** - Hugging Face transformers for local ML models
+- **@pinecone-database/pinecone** - Pinecone vector database client
+- **chromadb** - Chroma vector database
+- **weaviate-ts-client** - Weaviate vector database client
+- **@opentelemetry/*** - OpenTelemetry instrumentation (see Telemetry section)
+
+To install with optional dependencies:
+```bash
+cd backend
+npm install --include=optional
+```
+
+To install without optional dependencies (default):
+```bash
+cd backend
+npm install
+```
+
 ### Quick Start - Full Stack Application
 
 For detailed setup instructions, see [FULLSTACK_SETUP.md](FULLSTACK_SETUP.md)
@@ -79,6 +101,52 @@ npm start
 ```
 
 Visit `http://localhost:3000` to access the application.
+
+### Configuration Validation
+
+The backend uses typed configuration validation with Zod to ensure all environment variables are correctly set before the application starts:
+
+```bash
+# Validate configuration without starting the server
+cd backend
+npm run build
+npm run test:smoke
+```
+
+Configuration schema validates:
+- Port numbers are valid (1-65535)
+- Required API keys are present
+- Database connection strings are properly formatted
+- Environment is one of: development, production, test
+
+If validation fails, detailed error messages will indicate which configuration values are missing or invalid.
+
+### Telemetry (Optional)
+
+The application supports optional OpenTelemetry instrumentation for distributed tracing and monitoring. Telemetry is **disabled by default** and requires optional dependencies.
+
+To enable telemetry:
+
+1. Install optional dependencies:
+```bash
+cd backend
+npm install --include=optional
+```
+
+2. Set environment variables in `.env`:
+```env
+TELEMETRY_ENABLED=true
+TELEMETRY_SERVICE_NAME=time-machines-backend
+OTEL_EXPORTER_OTLP_ENDPOINT=http://your-otlp-collector:4318/v1/traces
+```
+
+Supported telemetry backends:
+- Jaeger
+- Zipkin
+- Any OTLP-compatible collector
+- Cloud providers (AWS X-Ray, Google Cloud Trace, Azure Monitor)
+
+**Note**: No vendor lock-in - uses OpenTelemetry standard protocol.
 
 ### Quick Start - Docker
 
@@ -118,10 +186,17 @@ docker-compose logs -f
 
 ### CI/CD Pipeline
 Runs on every push and pull request:
-- Code quality and security scanning
-- CodeQL analysis
-- Dependency review
-- Integration health checks
+- **Lint and Format Check** - ESLint and Prettier validation
+- **Code quality and security scanning** - CodeQL analysis
+- **Dependency review** - Automated dependency vulnerability checks
+- **Integration health checks** - Validates external service connections
+
+### Security Scanning and SBOM
+Automated security scanning with SBOM generation:
+- **Trivy scanning** - Vulnerability detection in dependencies and code
+- **SBOM generation** - Software Bill of Materials in SPDX and CycloneDX formats
+- **npm audit** - Regular dependency vulnerability scans
+- Runs weekly and on pull requests to main branch
 
 ### Cross-Repository Integration
 Enables synchronization across repositories:
@@ -130,10 +205,13 @@ Enables synchronization across repositories:
 - Coordinate updates across the ecosystem
 
 ### Dependency Management
-Weekly automated checks:
-- Dependency updates
-- Security audits
-- Cross-repository synchronization
+Automated dependency updates via Renovate:
+- **Renovate bot** - Automated dependency updates ([renovate.json](renovate.json))
+- Weekly update schedule (Mondays before 3 AM EST)
+- Grouped updates for heavy ML/AI dependencies
+- Security vulnerability alerts with high priority
+- Auto-merge for patch updates on dev dependencies
+- See [Renovate Dashboard](https://app.renovatebot.com/dashboard) for update status
 
 ## 💡 Usage Examples
 
@@ -163,6 +241,40 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - Integration development
 - Submitting pull requests
 
+### Development Setup
+
+1. **Install dependencies**:
+```bash
+cd backend
+npm install
+```
+
+2. **Set up pre-commit hooks** (optional but recommended):
+```bash
+cd backend
+npm run prepare  # Installs Husky hooks
+```
+
+Pre-commit hooks will automatically:
+- Run ESLint to check for code issues
+- Run Prettier to format code
+- Run on staged files only (via lint-staged)
+
+3. **Run linting and formatting**:
+```bash
+cd backend
+npm run lint        # Check for issues
+npm run lint:fix    # Fix issues automatically
+npm run format      # Format code with Prettier
+```
+
+4. **Run tests**:
+```bash
+cd backend
+npm test            # Run all tests
+npm run test:smoke  # Run smoke tests (config validation)
+```
+
 ## 📊 Project Status
 
 ![CI Status](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/ci.yml/badge.svg)
@@ -176,11 +288,24 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ## 🔒 Security
 
 This project uses multiple security measures:
-- CodeQL analysis for vulnerabilities
-- Trivy container scanning
-- Dependency review on pull requests
-- Secret scanning enabled
-- Regular security audits
+- **CodeQL analysis** - Automated code vulnerability detection
+- **Trivy container scanning** - Filesystem and dependency scanning
+- **SBOM generation** - Software Bill of Materials for transparency
+  - SPDX format for compliance
+  - CycloneDX format for tooling integration
+  - Available as CI artifacts (90-day retention)
+- **Dependency review** - Automated checks on pull requests
+- **Secret scanning** - Prevents credential leaks
+- **Renovate** - Automated dependency updates with security alerts
+- **npm audit** - Regular dependency vulnerability scans
+- **Pre-commit hooks** - Lint and format checks before commit
+
+### Security Scanning
+
+View security scan results:
+- **GitHub Security tab** - CodeQL and Trivy SARIF results
+- **Actions artifacts** - SBOM files and detailed scan reports
+- **Renovate Dashboard** - Dependency update status
 
 Report security issues via GitHub Security Advisories.
 

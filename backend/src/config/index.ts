@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
+import { validateConfig } from './validation';
 
 dotenv.config();
 
-export const config = {
+const rawConfig = {
   port: process.env.PORT || 3001,
   nodeEnv: process.env.NODE_ENV || 'development',
   
@@ -39,4 +40,15 @@ export const config = {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
   },
+  
+  // Telemetry Configuration (optional)
+  telemetry: {
+    enabled: process.env.TELEMETRY_ENABLED === 'true',
+    serviceName: process.env.TELEMETRY_SERVICE_NAME || 'time-machines-backend',
+    otlpEndpoint: process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
+  },
 };
+
+// Validate configuration at startup
+export const config = validateConfig(rawConfig);
+
