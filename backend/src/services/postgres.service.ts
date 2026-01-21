@@ -56,8 +56,14 @@ class PostgresService {
     return this.pool.query(text, params);
   }
 
-  async savePrompt(prompt: string, response: string, model: string, temperature: number): Promise<any> {
-    const query = 'INSERT INTO prompts (prompt, response, model, temperature) VALUES ($1, $2, $3, $4) RETURNING *';
+  async savePrompt(
+    prompt: string,
+    response: string,
+    model: string,
+    temperature: number
+  ): Promise<any> {
+    const query =
+      'INSERT INTO prompts (prompt, response, model, temperature) VALUES ($1, $2, $3, $4) RETURNING *';
     const result = await this.pool.query(query, [prompt, response, model, temperature]);
     return result.rows[0];
   }

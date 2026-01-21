@@ -25,7 +25,7 @@ class MongoService {
     if (!this.db) return;
 
     const collections = await this.db.listCollections().toArray();
-    const collectionNames = collections.map(c => c.name);
+    const collectionNames = collections.map((c) => c.name);
 
     if (!collectionNames.includes('ai_outputs')) {
       await this.db.createCollection('ai_outputs');
