@@ -1,9 +1,9 @@
 /**
  * OpenTelemetry Telemetry Module
- * 
+ *
  * This module provides optional telemetry instrumentation using OpenTelemetry.
  * It is disabled by default and can be enabled via environment variables.
- * 
+ *
  * Environment variables:
  * - TELEMETRY_ENABLED: Set to 'true' to enable telemetry
  * - TELEMETRY_SERVICE_NAME: Service name for traces (default: 'time-machines-backend')
@@ -13,7 +13,6 @@
 import { config } from '../config';
 
 let telemetryInitialized = false;
-let tracer: any = null;
 
 /**
  * Initialize OpenTelemetry instrumentation
@@ -33,7 +32,8 @@ export async function initTelemetry() {
   try {
     // Try to load OpenTelemetry dependencies (they are optional)
     const { NodeSDK } = await import('@opentelemetry/sdk-node');
-    const { getNodeAutoInstrumentations } = await import('@opentelemetry/auto-instrumentations-node');
+    const { getNodeAutoInstrumentations } =
+      await import('@opentelemetry/auto-instrumentations-node');
     const { OTLPTraceExporter } = await import('@opentelemetry/exporter-trace-otlp-http');
     const { Resource } = await import('@opentelemetry/resources');
     const { SemanticResourceAttributes } = await import('@opentelemetry/semantic-conventions');
@@ -91,7 +91,7 @@ export async function getTracer(name: string = 'default') {
  */
 export async function createSpan(name: string, fn: () => Promise<any>) {
   const tracer = await getTracer();
-  
+
   if (typeof tracer.startActiveSpan === 'function') {
     return tracer.startActiveSpan(name, async (span: any) => {
       try {

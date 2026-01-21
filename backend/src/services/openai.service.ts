@@ -14,11 +14,14 @@ class OpenAIService {
   /**
    * Generate text using OpenAI GPT models
    */
-  async generateText(prompt: string, options?: {
-    model?: string;
-    temperature?: number;
-    maxTokens?: number;
-  }): Promise<string> {
+  async generateText(
+    prompt: string,
+    options?: {
+      model?: string;
+      temperature?: number;
+      maxTokens?: number;
+    }
+  ): Promise<string> {
     const completion = await this.client.chat.completions.create({
       model: options?.model || 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: prompt }],
@@ -52,20 +55,24 @@ class OpenAIService {
   /**
    * Custom prompt with tuning parameters
    */
-  async customPrompt(prompt: string, systemMessage?: string, options?: {
-    model?: string;
-    temperature?: number;
-    maxTokens?: number;
-    topP?: number;
-    frequencyPenalty?: number;
-    presencePenalty?: number;
-  }): Promise<string> {
+  async customPrompt(
+    prompt: string,
+    systemMessage?: string,
+    options?: {
+      model?: string;
+      temperature?: number;
+      maxTokens?: number;
+      topP?: number;
+      frequencyPenalty?: number;
+      presencePenalty?: number;
+    }
+  ): Promise<string> {
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [];
-    
+
     if (systemMessage) {
       messages.push({ role: 'system', content: systemMessage });
     }
-    
+
     messages.push({ role: 'user', content: prompt });
 
     const completion = await this.client.chat.completions.create({
@@ -90,7 +97,7 @@ class OpenAIService {
       input: texts,
     });
 
-    return response.data.map(item => item.embedding);
+    return response.data.map((item) => item.embedding);
   }
 }
 

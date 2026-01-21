@@ -6,12 +6,12 @@ import { z } from 'zod';
 const configSchema = z.object({
   port: z.coerce.number().int().min(1).max(65535).default(3001),
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
-  
+
   openai: z.object({
     apiKey: z.string().min(1, 'OpenAI API key is required'),
     organization: z.string().optional(),
   }),
-  
+
   database: z.object({
     postgres: z.object({
       host: z.string().default('localhost'),
@@ -21,28 +21,41 @@ const configSchema = z.object({
       password: z.string(),
     }),
     mongodb: z.object({
-      uri: z.string().url().or(z.string().regex(/^mongodb:\/\/.+/)),
+      uri: z
+        .string()
+        .url()
+        .or(z.string().regex(/^mongodb:\/\/.+/)),
     }),
   }),
-  
-  api: z.object({
-    rateLimit: z.object({
-      windowMs: z.number().int().positive().default(15 * 60 * 1000),
-      max: z.number().int().positive().default(100),
-    }),
-  }),
-  
+
+  api: z
+    .object({
+      rateLimit: z
+        .object({
+          windowMs: z
+            .number()
+            .int()
+            .positive()
+            .default(15 * 60 * 1000),
+          max: z.number().int().positive().default(100),
+        })
+        .default({ windowMs: 15 * 60 * 1000, max: 100 }),
+    })
+    .default({ rateLimit: { windowMs: 15 * 60 * 1000, max: 100 } }),
+
   cors: z.object({
     origin: z.string().or(z.array(z.string())),
     credentials: z.boolean().default(true),
   }),
-  
+
   // Optional telemetry configuration
-  telemetry: z.object({
-    enabled: z.coerce.boolean().default(false),
-    serviceName: z.string().default('time-machines-backend'),
-    otlpEndpoint: z.string().url().optional(),
-  }).optional(),
+  telemetry: z
+    .object({
+      enabled: z.coerce.boolean().default(false),
+      serviceName: z.string().default('time-machines-backend'),
+      otlpEndpoint: z.string().url().optional(),
+    })
+    .optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;

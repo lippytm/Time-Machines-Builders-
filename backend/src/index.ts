@@ -21,14 +21,14 @@ class Server {
   private initializeMiddleware(): void {
     // Security middleware
     this.app.use(helmet());
-    
+
     // CORS
     this.app.use(cors(config.cors));
-    
+
     // Body parsing
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    
+
     // Rate limiting
     const limiter = rateLimit(config.api.rateLimit);
     this.app.use('/api/', limiter);

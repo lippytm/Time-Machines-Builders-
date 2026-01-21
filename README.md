@@ -62,9 +62,10 @@ This project supports optional heavy ML/AI dependencies via npm's `optionalDepen
 
 - **@huggingface/transformers** - Hugging Face transformers for local ML models
 - **@pinecone-database/pinecone** - Pinecone vector database client
-- **chromadb** - Chroma vector database
 - **weaviate-ts-client** - Weaviate vector database client
 - **@opentelemetry/*** - OpenTelemetry instrumentation (see Telemetry section)
+
+**Note**: ChromaDB is available separately but may require additional configuration due to OpenAI SDK version compatibility.
 
 To install with optional dependencies:
 ```bash

@@ -24,7 +24,12 @@ export class OpenAIController {
 
       // Save to databases (with individual error handling)
       try {
-        await postgresService.savePrompt(prompt, response, model || 'gpt-3.5-turbo', temperature || 0.7);
+        await postgresService.savePrompt(
+          prompt,
+          response,
+          model || 'gpt-3.5-turbo',
+          temperature || 0.7
+        );
       } catch (dbError: any) {
         console.warn('Failed to save to PostgreSQL:', dbError.message);
       }

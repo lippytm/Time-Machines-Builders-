@@ -6,13 +6,13 @@ dotenv.config();
 const rawConfig = {
   port: process.env.PORT || 3001,
   nodeEnv: process.env.NODE_ENV || 'development',
-  
+
   // OpenAI Configuration
   openai: {
     apiKey: process.env.OPENAI_API_KEY || '',
     organization: process.env.OPENAI_ORG_ID || '',
   },
-  
+
   // Database Configuration
   database: {
     postgres: {
@@ -26,7 +26,7 @@ const rawConfig = {
       uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/timemachines',
     },
   },
-  
+
   // API Configuration
   api: {
     rateLimit: {
@@ -34,13 +34,13 @@ const rawConfig = {
       max: 100, // limit each IP to 100 requests per windowMs
     },
   },
-  
+
   // CORS Configuration
   cors: {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
   },
-  
+
   // Telemetry Configuration (optional)
   telemetry: {
     enabled: process.env.TELEMETRY_ENABLED === 'true',
@@ -51,4 +51,3 @@ const rawConfig = {
 
 // Validate configuration at startup
 export const config = validateConfig(rawConfig);
-
