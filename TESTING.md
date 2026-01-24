@@ -18,9 +18,24 @@
   ```
   Expected: JSON response with generated text
 
+- [ ] **Claude Text Generation**
+  ```bash
+  curl -X POST http://localhost:3001/api/claude/generate \
+    -H "Content-Type: application/json" \
+    -d '{"prompt":"Hello world"}'
+  ```
+  Expected: JSON response with generated text
+
 - [ ] **Summarization**
   ```bash
   curl -X POST http://localhost:3001/api/openai/summarize \
+    -H "Content-Type: application/json" \
+    -d '{"text":"Long text here..."}'
+  ```
+
+- [ ] **Claude Summarization**
+  ```bash
+  curl -X POST http://localhost:3001/api/claude/summarize \
     -H "Content-Type: application/json" \
     -d '{"text":"Long text here..."}'
   ```
@@ -46,12 +61,23 @@
 
 - [ ] **Prompt Interface**
   - Text input works
-  - Model selection works
+  - AI Provider selection works (OpenAI/Claude)
+  - Model selection works for both providers
   - Temperature slider works
   - Token input accepts values
   - Generate button triggers request
   - Response displays correctly
   - Error messages appear when needed
+
+- [ ] **Claude Toolkit**
+  - Code generation tab loads
+  - Language selection works
+  - Code description input works
+  - Generate code button works
+  - Code analysis tab loads
+  - Code input accepts code
+  - Analyze button works
+  - Results display correctly
 
 - [ ] **Data Visualization**
   - Embedding input works
@@ -130,14 +156,28 @@
 4. Test embeddings
 5. Verify results
 
-### Scenario 3: Database Integration
+### Scenario 3: Claude Integration
+1. Configure Anthropic API key
+2. Select Claude provider in UI
+3. Test text generation
+4. Test code generation
+5. Test code analysis
+6. Verify results
+
+### Scenario 4: Multi-Provider Usage
+1. Configure both API keys
+2. Switch between OpenAI and Claude
+3. Compare responses
+4. Test different models from each provider
+
+### Scenario 5: Database Integration
 1. Start PostgreSQL
 2. Run schema script
 3. Start MongoDB
 4. Configure connection strings
 5. Test data persistence
 
-### Scenario 4: Production Build
+### Scenario 6: Production Build
 1. Build backend
 2. Build frontend
 3. Test production builds
@@ -148,6 +188,7 @@
 - [ ] **Backend Response Time**
   - Health check: < 100ms
   - OpenAI calls: Based on model (typically 1-5s)
+  - Claude calls: Based on model (typically 1-3s)
 
 - [ ] **Frontend Load Time**
   - Initial load: < 3s
@@ -161,15 +202,21 @@
 
 ### Core Features
 - [x] OpenAI text generation
-- [x] Text summarization
-- [x] Embedding creation
-- [x] Custom prompts with tuning
-- [x] Batch embeddings
-- [x] History retrieval
+- [x] Claude text generation
+- [x] Text summarization (OpenAI & Claude)
+- [x] Embedding creation (OpenAI)
+- [x] Custom prompts with tuning (both providers)
+- [x] Batch embeddings (OpenAI)
+- [x] Code generation (Claude)
+- [x] Code analysis (Claude)
+- [x] Multi-turn conversations (Claude)
+- [x] History retrieval (both providers)
 
 ### UI Components
 - [x] Dashboard with statistics
 - [x] Prompt interface with controls
+- [x] AI provider selection (OpenAI/Claude)
+- [x] Claude Toolkit (code generation/analysis)
 - [x] Data visualization
 - [x] Tab navigation
 - [x] Responsive design
@@ -177,6 +224,7 @@
 ### Backend Services
 - [x] Express server
 - [x] OpenAI integration
+- [x] Claude/Anthropic integration
 - [x] PostgreSQL service
 - [x] MongoDB service
 - [x] Error handling
@@ -208,7 +256,44 @@
 
 ## 📝 Notes
 
-- All tests assume OpenAI API key is configured
+- All tests assume OpenAI and/or Anthropic API keys are configured
+- You can use either or both AI providers
 - Database tests require PostgreSQL and MongoDB running
 - Docker tests require Docker and Docker Compose installed
-- Performance metrics may vary based on OpenAI API response times
+- Performance metrics may vary based on API response times
+
+## 🔗 Claude-Specific Tests
+
+### Code Generation Test
+```bash
+curl -X POST http://localhost:3001/api/claude/generate-code \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Create a function to validate email addresses",
+    "language": "javascript"
+  }'
+```
+
+### Code Analysis Test
+```bash
+curl -X POST http://localhost:3001/api/claude/analyze-code \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "function add(a, b) { return a + b; }",
+    "language": "javascript"
+  }'
+```
+
+### Conversation Test
+```bash
+curl -X POST http://localhost:3001/api/claude/conversation \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "What is recursion?"},
+      {"role": "assistant", "content": "Recursion is..."},
+      {"role": "user", "content": "Show me an example"}
+    ],
+    "systemMessage": "You are a programming tutor"
+  }'
+```
