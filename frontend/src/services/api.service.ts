@@ -66,6 +66,74 @@ class ApiService {
     const response = await this.client.get(`/openai/history?limit=${limit}`);
     return response.data;
   }
+
+  // Claude API calls
+  async claudeGenerateText(prompt: string, options?: {
+    model?: string;
+    temperature?: number;
+    maxTokens?: number;
+  }) {
+    const response = await this.client.post('/claude/generate', {
+      prompt,
+      ...options,
+    });
+    return response.data;
+  }
+
+  async claudeSummarizeText(text: string) {
+    const response = await this.client.post('/claude/summarize', { text });
+    return response.data;
+  }
+
+  async claudeCustomPrompt(
+    prompt: string,
+    systemMessage?: string,
+    options?: {
+      model?: string;
+      temperature?: number;
+      maxTokens?: number;
+      topP?: number;
+    }
+  ) {
+    const response = await this.client.post('/claude/custom-prompt', {
+      prompt,
+      systemMessage,
+      ...options,
+    });
+    return response.data;
+  }
+
+  async claudeConversation(
+    messages: Array<{ role: 'user' | 'assistant'; content: string }>,
+    systemMessage?: string,
+    options?: {
+      model?: string;
+      temperature?: number;
+      maxTokens?: number;
+    }
+  ) {
+    const response = await this.client.post('/claude/conversation', {
+      messages,
+      systemMessage,
+      ...options,
+    });
+    return response.data;
+  }
+
+  async claudeAnalyzeCode(code: string, language: string) {
+    const response = await this.client.post('/claude/analyze-code', { code, language });
+    return response.data;
+  }
+
+  async claudeGenerateCode(description: string, language: string) {
+    const response = await this.client.post('/claude/generate-code', { description, language });
+    return response.data;
+  }
+
+  async claudeGetHistory(limit: number = 10) {
+    const response = await this.client.get(`/claude/history?limit=${limit}`);
+    return response.data;
+  }
 }
 
 export const apiService = new ApiService();

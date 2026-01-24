@@ -1,6 +1,6 @@
 # Full Stack AI Integration - Setup Guide
 
-This guide will help you set up and run the Time Machines Builders Full Stack AI application with OpenAI integration.
+This guide will help you set up and run the Time Machines Builders Full Stack AI application with OpenAI and Claude integration.
 
 ## Architecture Overview
 
@@ -11,13 +11,15 @@ This guide will help you set up and run the Time Machines Builders Full Stack AI
 │                                                               │
 │  Frontend (React + TypeScript + Material-UI)                │
 │  ├── Dashboard - View AI activity and statistics            │
-│  ├── Prompt Interface - Interact with OpenAI models         │
+│  ├── Prompt Interface - Interact with AI models             │
+│  ├── Claude Toolkit - Code generation and analysis          │
 │  └── Data Visualization - View embeddings and analytics     │
 │                                                               │
 ├─────────────────────────────────────────────────────────────┤
 │                                                               │
 │  Backend (Node.js + Express + TypeScript)                   │
 │  ├── OpenAI Service - GPT models integration                │
+│  ├── Claude Service - Anthropic Claude integration          │
 │  ├── PostgreSQL Service - Structured data storage           │
 │  └── MongoDB Service - Unstructured data storage            │
 │                                                               │
@@ -30,7 +32,8 @@ This guide will help you set up and run the Time Machines Builders Full Stack AI
 ├─────────────────────────────────────────────────────────────┤
 │                                                               │
 │  External Services                                           │
-│  └── OpenAI API - GPT models and embeddings                 │
+│  ├── OpenAI API - GPT models and embeddings                 │
+│  └── Anthropic API - Claude models                          │
 │                                                               │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -41,7 +44,8 @@ This guide will help you set up and run the Time Machines Builders Full Stack AI
 - **npm** or **yarn**
 - **PostgreSQL** (v12 or higher) - Optional but recommended
 - **MongoDB** (v4.4 or higher) - Optional but recommended
-- **OpenAI API Key** - Required for AI features
+- **OpenAI API Key** - Required for OpenAI features
+- **Anthropic API Key** - Required for Claude features
 
 ## Quick Start
 
@@ -64,8 +68,9 @@ npm install
 # Copy environment template
 cp .env.example .env
 
-# Edit .env and add your OpenAI API key
-# OPENAI_API_KEY=your_api_key_here
+# Edit .env and add your API keys
+# OPENAI_API_KEY=your_openai_api_key_here
+# ANTHROPIC_API_KEY=your_anthropic_api_key_here
 nano .env
 
 # Build TypeScript
@@ -247,10 +252,11 @@ Time-Machines-Builders-/
 
 ### Backend Issues
 
-**OpenAI API errors:**
-- Verify your API key is correct
-- Check your OpenAI account has credits
-- Ensure API key has proper permissions
+**OpenAI/Anthropic API errors:**
+- Verify your API keys are correct
+- Check your OpenAI/Anthropic account has credits
+- Ensure API keys have proper permissions
+- Note: You can use either or both providers
 
 **Database connection errors:**
 - Check PostgreSQL/MongoDB is running
@@ -277,7 +283,34 @@ Time-Machines-Builders-/
 3. **Enable authentication** - Before deploying to production
 4. **Rate limiting** - Already implemented, adjust as needed
 5. **HTTPS** - Use HTTPS in production
-6. **API key rotation** - Regularly rotate your OpenAI API keys
+6. **API key rotation** - Regularly rotate your OpenAI and Anthropic API keys
+
+## Claude AI Features
+
+The application now includes Anthropic's Claude AI with advanced capabilities:
+
+### Available Features
+
+1. **AI Prompt Interface** - Select between OpenAI and Claude providers
+2. **Claude Toolkit** - Specialized tools for:
+   - Code generation in multiple languages
+   - Code analysis and review
+   - Advanced reasoning tasks
+
+### Using Claude
+
+1. **Get API Key**: Sign up at [console.anthropic.com](https://console.anthropic.com/)
+2. **Configure**: Add `ANTHROPIC_API_KEY` to `backend/.env`
+3. **Select Provider**: Choose "Anthropic (Claude)" in the UI
+4. **Choose Model**: Select from Claude 3.5 Sonnet, Opus, Sonnet, or Haiku
+
+### Claude vs OpenAI
+
+- **Claude**: Better for code analysis, reasoning, and long context
+- **OpenAI**: Better for embeddings and general-purpose tasks
+- **Use Both**: Switch between providers based on your needs
+
+For detailed Claude integration guide, see [CLAUDE_INTEGRATION.md](../CLAUDE_INTEGRATION.md)
 
 ## Production Deployment
 

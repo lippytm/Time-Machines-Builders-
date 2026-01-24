@@ -12,6 +12,11 @@ export const config = {
     organization: process.env.OPENAI_ORG_ID || '',
   },
   
+  // Anthropic Claude Configuration
+  anthropic: {
+    apiKey: process.env.ANTHROPIC_API_KEY || '',
+  },
+  
   // Database Configuration
   database: {
     postgres: {

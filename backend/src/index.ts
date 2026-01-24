@@ -6,6 +6,7 @@ import { config } from './config';
 import { postgresService } from './services/postgres.service';
 import { mongoService } from './services/mongo.service';
 import openaiRoutes from './routes/openai.routes';
+import claudeRoutes from './routes/claude.routes';
 import { errorHandler, notFound } from './middleware/error.middleware';
 
 class Server {
@@ -42,6 +43,7 @@ class Server {
 
     // API routes
     this.app.use('/api/openai', openaiRoutes);
+    this.app.use('/api/claude', claudeRoutes);
   }
 
   private initializeErrorHandling(): void {
@@ -81,6 +83,7 @@ class Server {
       console.log(`📍 Environment: ${config.nodeEnv}`);
       console.log(`🔗 Health check: http://localhost:${config.port}/health`);
       console.log(`🤖 OpenAI API: http://localhost:${config.port}/api/openai`);
+      console.log(`🧠 Claude API: http://localhost:${config.port}/api/claude`);
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     });
   }
