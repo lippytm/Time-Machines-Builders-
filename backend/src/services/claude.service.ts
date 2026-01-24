@@ -25,6 +25,10 @@ class ClaudeService {
       messages: [{ role: 'user', content: prompt }],
     });
 
+    if (message.content.length === 0) {
+      return '';
+    }
+
     const content = message.content[0];
     if (content.type === 'text') {
       return content.text;
@@ -58,6 +62,10 @@ class ClaudeService {
       messages: [{ role: 'user', content: prompt }],
     });
 
+    if (message.content.length === 0) {
+      return '';
+    }
+
     const content = message.content[0];
     if (content.type === 'text') {
       return content.text;
@@ -84,6 +92,10 @@ class ClaudeService {
       system: systemMessage,
       messages,
     });
+
+    if (message.content.length === 0) {
+      return '';
+    }
 
     const content = message.content[0];
     if (content.type === 'text') {
