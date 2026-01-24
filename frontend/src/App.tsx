@@ -14,6 +14,7 @@ import {
 import Dashboard from './components/Dashboard/Dashboard';
 import PromptInterface from './components/PromptInterface/PromptInterface';
 import DataVisualization from './components/DataVisualization/DataVisualization';
+import ClaudeToolkit from './components/ClaudeToolkit/ClaudeToolkit';
 
 const theme = createTheme({
   palette: {
@@ -75,6 +76,7 @@ function App() {
           >
             <Tab label="Dashboard" />
             <Tab label="AI Prompt Interface" />
+            <Tab label="Claude Toolkit" />
             <Tab label="Data & Embeddings" />
           </Tabs>
         </AppBar>
@@ -87,6 +89,9 @@ function App() {
             <PromptInterface />
           </TabPanel>
           <TabPanel value={currentTab} index={2}>
+            <ClaudeToolkit />
+          </TabPanel>
+          <TabPanel value={currentTab} index={3}>
             <DataVisualization />
           </TabPanel>
         </Container>

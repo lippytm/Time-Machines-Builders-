@@ -23,6 +23,9 @@ const PromptInterface: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
+  // AI Provider selection
+  const [provider, setProvider] = useState<'openai' | 'claude'>('openai');
+  
   // Tuning parameters
   const [model, setModel] = useState('gpt-3.5-turbo');
   const [temperature, setTemperature] = useState(0.7);
@@ -39,15 +42,28 @@ const PromptInterface: React.FC = () => {
     setResponse('');
 
     try {
-      const result = await apiService.customPrompt(
-        prompt,
-        systemMessage || undefined,
-        {
-          model,
-          temperature,
-          maxTokens,
-        }
-      );
+      let result;
+      if (provider === 'claude') {
+        result = await apiService.claudeCustomPrompt(
+          prompt,
+          systemMessage || undefined,
+          {
+            model,
+            temperature,
+            maxTokens,
+          }
+        );
+      } else {
+        result = await apiService.customPrompt(
+          prompt,
+          systemMessage || undefined,
+          {
+            model,
+            temperature,
+            maxTokens,
+          }
+        );
+      }
       setResponse(result.response);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to generate response');
@@ -59,10 +75,31 @@ const PromptInterface: React.FC = () => {
   return (
     <Box sx={{ maxWidth: 1200, margin: '0 auto', p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        OpenAI Prompt Interface
+        AI Prompt Interface
       </Typography>
 
       <Paper sx={{ p: 3, mb: 3 }}>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>AI Provider</InputLabel>
+          <Select
+            value={provider}
+            label="AI Provider"
+            onChange={(e) => {
+              const newProvider = e.target.value as 'openai' | 'claude';
+              setProvider(newProvider);
+              // Set default model based on provider
+              if (newProvider === 'claude') {
+                setModel('claude-3-5-sonnet-20241022');
+              } else {
+                setModel('gpt-3.5-turbo');
+              }
+            }}
+          >
+            <MenuItem value="openai">OpenAI (GPT)</MenuItem>
+            <MenuItem value="claude">Anthropic (Claude)</MenuItem>
+          </Select>
+        </FormControl>
+
         <TextField
           fullWidth
           label="System Message (Optional)"
@@ -93,9 +130,20 @@ const PromptInterface: React.FC = () => {
               label="Model"
               onChange={(e) => setModel(e.target.value)}
             >
-              <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-              <MenuItem value="gpt-4">GPT-4</MenuItem>
-              <MenuItem value="gpt-4-turbo-preview">GPT-4 Turbo</MenuItem>
+              {provider === 'openai' ? (
+                <>
+                  <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+                  <MenuItem value="gpt-4">GPT-4</MenuItem>
+                  <MenuItem value="gpt-4-turbo-preview">GPT-4 Turbo</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</MenuItem>
+                  <MenuItem value="claude-3-opus-20240229">Claude 3 Opus</MenuItem>
+                  <MenuItem value="claude-3-sonnet-20240229">Claude 3 Sonnet</MenuItem>
+                  <MenuItem value="claude-3-haiku-20240307">Claude 3 Haiku</MenuItem>
+                </>
+              )}
             </Select>
           </FormControl>
 
