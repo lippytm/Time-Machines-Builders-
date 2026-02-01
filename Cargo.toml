@@ -1,0 +1,97 @@
+# Time Machines Builders - Rust SDK Adapter Notes
+#
+# This repository is primarily Node.js/TypeScript, but this file provides
+# guidance for implementing equivalent adapters in Rust.
+#
+# To use these integrations in Rust, add the following dependencies:
+
+[package]
+name = "time-machines-builders"
+version = "1.0.0"
+edition = "2021"
+authors = ["lippytm"]
+description = "Rust adapter notes for Time Machines Builders AI/Web3 integration"
+
+[dependencies]
+# AI Dependencies
+# Note: OpenAI doesn't have official Rust SDK, use async-openai (community)
+async-openai = "0.17"          # OpenAI API client (community)
+tokio = { version = "1.35", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }  # For Hugging Face HTTP API
+
+# Note: LangChain and LlamaIndex don't have Rust ports yet - implement custom
+
+# Vector Stores
+# Most vector stores use HTTP/gRPC APIs - use reqwest or tonic
+
+# Web3 Dependencies
+ethers = "2.0"                 # Ethereum and EVM chains (ethers-rs)
+solana-client = "1.17"         # Solana RPC client
+solana-sdk = "1.17"            # Solana SDK
+anchor-client = "0.29"         # Anchor framework (native Rust)
+anchor-lang = "0.29"           # Anchor language (for programs)
+
+# Messaging Dependencies
+# Slack: Use reqwest with Slack API
+serenity = "0.12"              # Discord API (async)
+
+# Data Dependencies
+tokio-postgres = "0.7"         # PostgreSQL async client
+redis = { version = "0.24", features = ["tokio-comp", "connection-manager"] }
+aws-sdk-s3 = "1.11"            # AWS S3
+# IPFS: Use ipfs-api crate or HTTP client
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+# Example Rust adapter structure:
+#
+# src/
+#   lib.rs                 // Main library entry
+#   config.rs              // Configuration loader
+#   factory.rs             // Factory pattern for creating adapters
+#   adapter.rs             // Base adapter trait
+#   ai/
+#     mod.rs
+#     openai_adapter.rs    // async-openai wrapper
+#     huggingface_adapter.rs
+#   web3/
+#     mod.rs
+#     evm_adapter.rs       // ethers-rs wrapper
+#     solana_adapter.rs    // Solana SDK wrapper
+#     anchor_adapter.rs    // Anchor client wrapper
+#   messaging/
+#     mod.rs
+#     slack_adapter.rs     // Slack HTTP API wrapper
+#     discord_adapter.rs   // Serenity wrapper
+#   data/
+#     mod.rs
+#     postgres_adapter.rs  // tokio-postgres wrapper
+#     redis_adapter.rs     // redis-rs wrapper
+#     s3_adapter.rs        // AWS SDK wrapper
+#     ipfs_adapter.rs      // IPFS client wrapper
+#
+# Usage example:
+#   use time_machines_builders::sdk::{load_config, SDKFactory};
+#   
+#   #[tokio::main]
+#   async fn main() -> Result<(), Box<dyn std::error::Error>> {
+#       let config = load_config()?;
+#       let factory = SDKFactory::new(config);
+#       
+#       let openai = factory.create_ai_adapter("openai").await?;
+#       let evm = factory.create_web3_adapter("evm").await?;
+#       
+#       Ok(())
+#   }

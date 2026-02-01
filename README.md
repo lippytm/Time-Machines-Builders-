@@ -21,13 +21,33 @@ This repository integrates with:
 - ✅ **GitHub Copilot** - AI-assisted development
 - ✅ **OpenAI** - GPT models and embeddings integration
 - ✅ **Huggingface** - AI model training and deployment
+- ✅ **LangChain** - AI application framework
+- ✅ **LlamaIndex** - Data framework for LLM applications
+- ✅ **Vector Stores** - Pinecone, Weaviate, Chroma (optional)
 - ✅ **GitHub Actions** - Automated workflows and CI/CD
 - ✅ **Full Stack Application** - React frontend + Node.js backend
+
+### Web3 & Blockchain
+- ✅ **EVM Chains** - Ethereum, Polygon, BSC support via ethers.js
+- ✅ **Solana** - Solana blockchain integration
+- ✅ **Anchor** - Solana framework support (optional)
+
+### Messaging & Communication
+- ✅ **Slack** - Slack API integration
+- ✅ **Discord** - Discord bot integration
+
+### Data & Storage
+- ✅ **PostgreSQL** - Relational database
+- ✅ **MongoDB** - NoSQL database
+- ✅ **Redis** - In-memory data store
+- ✅ **AWS S3** - Object storage
+- ✅ **IPFS** - Decentralized storage
 
 ### Automation & Services
 - ✅ **n8n** - Workflow automation platform
 - ✅ **Cloudflare** - Edge computing and CDN
 - ✅ **Cross-Repository Sync** - Automated repository coordination
+- ✅ **Container Deployment** - GitHub Container Registry (ghcr.io)
 
 ## 📋 Features
 
@@ -42,6 +62,106 @@ This repository integrates with:
 - **Security First**: CodeQL analysis, Trivy scanning, and dependency reviews
 - **Extensible Architecture**: Easy to add new integrations and workflows
 
+## 🔌 SDK Adapters & Providers
+
+This repository includes a comprehensive SDK with adapters for AI, Web3, messaging, and data services. All adapters follow a consistent factory pattern and reference the `@lippytm/ai-sdk` package for shared interfaces.
+
+### AI Providers
+
+#### Core AI Services
+- **OpenAI** - GPT models, embeddings, and completions
+  - Env vars: `OPENAI_API_KEY`, `OPENAI_ORG_ID`
+- **Hugging Face** - Inference API and transformers
+  - Env vars: `HUGGINGFACE_API_KEY`, `HUGGINGFACE_INFERENCE_ENDPOINT`
+- **LangChain** - AI application framework
+  - Env var: `LANGCHAIN_ENABLED=true`
+- **LlamaIndex** - Data framework for LLM applications
+  - Env var: `LLAMAINDEX_ENABLED=true`
+
+#### Vector Stores (Optional - Heavy Dependencies)
+- **Pinecone** - Managed vector database
+  - Env vars: `PINECONE_API_KEY`, `PINECONE_ENVIRONMENT`
+  - Install: `npm install @pinecone-database/pinecone` (optional)
+- **Weaviate** - Open-source vector database
+  - Env vars: `WEAVIATE_URL`, `WEAVIATE_API_KEY`
+  - Install: `npm install weaviate-ts-client` (optional)
+- **Chroma** - Embedding database
+  - Env var: `CHROMA_URL`
+  - Install: `npm install chromadb` (optional)
+
+### Web3 Providers
+
+- **EVM Chains** - Ethereum, Polygon, BSC, and other EVM-compatible chains
+  - Env vars: `EVM_RPC_URL`, `EVM_CHAIN_ID`, `EVM_PRIVATE_KEY`
+  - Uses: ethers.js
+- **Solana** - Solana blockchain
+  - Env vars: `SOLANA_RPC_URL`, `SOLANA_NETWORK`, `SOLANA_PRIVATE_KEY`
+  - Uses: @solana/web3.js
+- **Anchor** - Solana framework (optional)
+  - Env vars: `ANCHOR_ENABLED=true`, `ANCHOR_PROGRAM_ID`
+  - Install: `npm install @coral-xyz/anchor` (optional)
+
+### Messaging Providers
+
+- **Slack** - Slack API integration
+  - Env vars: `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`
+- **Discord** - Discord bot integration
+  - Env vars: `DISCORD_BOT_TOKEN`, `DISCORD_CLIENT_ID`
+
+### Data Providers
+
+- **PostgreSQL** - Relational database
+  - Env vars: `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- **Redis** - In-memory data store
+  - Env vars: `REDIS_URL`, `REDIS_PASSWORD`
+- **AWS S3** - Object storage
+  - Env vars: `AWS_REGION`, `S3_BUCKET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
+- **IPFS** - Decentralized storage
+  - Env vars: `IPFS_URL`, `IPFS_PROJECT_ID`, `IPFS_PROJECT_SECRET`
+
+### Multi-Language Support
+
+The SDK adapters are primarily implemented in **Node.js/TypeScript**, with reference documentation for equivalent packages in other languages:
+
+- **Python** - See `pyproject.toml` for Python package equivalents
+- **Go** - See `go.mod` for Go module equivalents
+- **Rust** - See `Cargo.toml` for Rust crate equivalents
+
+### Usage Example
+
+```typescript
+import { loadSDKConfig, SDKFactory } from './sdk';
+
+// Load configuration from environment
+const config = loadSDKConfig();
+
+// Create factory
+const factory = new SDKFactory(config);
+
+// Create AI adapter
+const openai = factory.createAIAdapter('openai');
+
+// Create Web3 adapter
+const evm = factory.createWeb3Adapter('evm');
+
+// Create messaging adapter
+const slack = factory.createMessagingAdapter('slack');
+
+// Create data adapter
+const redis = factory.createDataAdapter('redis');
+```
+
+### Testing SDK Configuration
+
+Run the configuration smoke test to verify your setup:
+
+```bash
+cd backend
+npm run test:config
+```
+
+This will display the status of all configured adapters and providers.
+
 ## 🚦 Getting Started
 
 ### Prerequisites
@@ -50,11 +170,21 @@ This repository integrates with:
 - Node.js (v18 or higher)
 - npm or yarn
 - (Optional) PostgreSQL and MongoDB for database features
+- (Optional) Redis for caching
 - (Optional) API keys for external integrations:
-  - **OpenAI API key** (required for AI features)
-  - Huggingface API key
+  - **OpenAI API key** (recommended for AI features)
+  - Hugging Face API key (for HF models)
+  - Pinecone, Weaviate, or Chroma (for vector stores - heavy installs)
+  - EVM RPC URL (for Ethereum/EVM chains)
+  - Solana RPC URL (for Solana blockchain)
+  - Slack Bot Token (for Slack integration)
+  - Discord Bot Token (for Discord integration)
+  - AWS credentials (for S3 storage)
+  - IPFS credentials (for decentralized storage)
   - n8n webhook URL
   - Cloudflare API token
+
+**Note**: Most dependencies are optional. The application will work with minimal configuration (just OpenAI API key for basic AI features).
 
 ### Quick Start - Full Stack Application
 
