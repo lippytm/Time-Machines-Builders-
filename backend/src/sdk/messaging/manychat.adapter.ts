@@ -37,12 +37,13 @@ export class ManyChatAdapter implements BaseAdapter {
   /**
    * Send message to a subscriber
    */
-  async sendMessage(subscriberId: string, message: string, tag?: string): Promise<void> {
+  async sendMessage(subscriberId: string, message: string, tag?: string): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('ManyChat client not initialized - API key required');
     }
     // TODO: Implement using fetch or axios
     // POST /fb/subscriber/sendContent
+    // Returns: { status: 'success', messageId: string }
     throw new Error('Not implemented - TODO');
   }
 
@@ -61,36 +62,39 @@ export class ManyChatAdapter implements BaseAdapter {
   /**
    * Set custom field for subscriber
    */
-  async setCustomField(subscriberId: string, fieldName: string, value: any): Promise<void> {
+  async setCustomField(subscriberId: string, fieldName: string, value: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('ManyChat client not initialized - API key required');
     }
     // TODO: Implement
     // POST /fb/subscriber/setCustomField
+    // Returns: { status: 'success' }
     throw new Error('Not implemented - TODO');
   }
 
   /**
    * Add tag to subscriber
    */
-  async addTag(subscriberId: string, tagName: string): Promise<void> {
+  async addTag(subscriberId: string, tagName: string): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('ManyChat client not initialized - API key required');
     }
     // TODO: Implement
     // POST /fb/subscriber/addTag
+    // Returns: { status: 'success' }
     throw new Error('Not implemented - TODO');
   }
 
   /**
    * Remove tag from subscriber
    */
-  async removeTag(subscriberId: string, tagName: string): Promise<void> {
+  async removeTag(subscriberId: string, tagName: string): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('ManyChat client not initialized - API key required');
     }
     // TODO: Implement
     // POST /fb/subscriber/removeTag
+    // Returns: { status: 'success' }
     throw new Error('Not implemented - TODO');
   }
 

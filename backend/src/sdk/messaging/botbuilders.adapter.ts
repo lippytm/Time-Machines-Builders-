@@ -37,11 +37,12 @@ export class BotBuildersAdapter implements BaseAdapter {
   /**
    * Send message through bot
    */
-  async sendMessage(conversationId: string, message: string, metadata?: any): Promise<void> {
+  async sendMessage(conversationId: string, message: string, metadata?: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('BotBuilders client not initialized - API key required');
     }
     // TODO: Implement using fetch or axios
+    // Returns: { messageId: string, timestamp: number, status: string }
     throw new Error('Not implemented - TODO');
   }
 
@@ -70,22 +71,24 @@ export class BotBuildersAdapter implements BaseAdapter {
   /**
    * Update bot configuration
    */
-  async updateBot(botId: string, config: any): Promise<void> {
+  async updateBot(botId: string, config: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('BotBuilders client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: updated bot configuration
     throw new Error('Not implemented - TODO');
   }
 
   /**
    * Deploy bot to channels
    */
-  async deployBot(botId: string, channels: string[]): Promise<void> {
+  async deployBot(botId: string, channels: string[]): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('BotBuilders client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: deployment status
     throw new Error('Not implemented - TODO');
   }
 
@@ -103,11 +106,12 @@ export class BotBuildersAdapter implements BaseAdapter {
   /**
    * Train bot with new data
    */
-  async trainBot(botId: string, trainingData: any): Promise<void> {
+  async trainBot(botId: string, trainingData: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('BotBuilders client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: training job status
     throw new Error('Not implemented - TODO');
   }
 

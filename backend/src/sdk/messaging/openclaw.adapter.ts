@@ -70,11 +70,12 @@ export class OpenClawAdapter implements BaseAdapter {
   /**
    * Update session context
    */
-  async updateSessionContext(sessionId: string, context: any): Promise<void> {
+  async updateSessionContext(sessionId: string, context: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('OpenClaw client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: updated session
     throw new Error('Not implemented - TODO');
   }
 
@@ -103,11 +104,12 @@ export class OpenClawAdapter implements BaseAdapter {
   /**
    * Train NLU model
    */
-  async trainModel(trainingData: any): Promise<void> {
+  async trainModel(trainingData: any): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('OpenClaw client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: training job status
     throw new Error('Not implemented - TODO');
   }
 

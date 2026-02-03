@@ -103,11 +103,12 @@ export class MoltbookAdapter implements BaseAdapter {
   /**
    * Add members to group
    */
-  async addGroupMembers(groupId: string, memberIds: string[]): Promise<void> {
+  async addGroupMembers(groupId: string, memberIds: string[]): Promise<any> {
     if (!this.isConnected()) {
       throw new Error('Moltbook client not initialized - API key required');
     }
     // TODO: Implement
+    // Returns: updated group info
     throw new Error('Not implemented - TODO');
   }
 
