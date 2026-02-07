@@ -295,7 +295,10 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📊 Project Status
 
-![CI Status](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/ci.yml/badge.svg)
+[![Lint and Test](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/lint-test.yml/badge.svg)](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/lint-test.yml)
+[![CodeQL](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/codeql.yml/badge.svg)](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/codeql.yml)
+[![Dependency Review](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/dependency-review.yml)
+[![CI Status](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/ci.yml/badge.svg)](https://github.com/lippytm/Time-Machines-Builders-/actions/workflows/ci.yml)
 
 - ✅ GitHub Actions workflows configured
 - ✅ Cross-repository integration enabled

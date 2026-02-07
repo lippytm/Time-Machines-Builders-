@@ -1,0 +1,35 @@
+# CODEOWNERS file for Time-Machines-Builders
+# This file defines individuals or teams responsible for code in this repository.
+# 
+# Each line is a file pattern followed by one or more owners.
+# Order is important; the last matching pattern takes precedence.
+# 
+# More details: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+# Unless a later match takes precedence, @lippytm will be requested for review
+* @lippytm
+
+# GitHub Actions workflows
+/.github/workflows/ @lippytm
+
+# CI/CD and automation
+/.github/ @lippytm
+
+# Security and documentation
+/SECURITY.md @lippytm
+/CONTRIBUTING.md @lippytm
+/LICENSE @lippytm
+
+# Frontend application
+/frontend/ @lippytm
+
+# Backend application
+/backend/ @lippytm
+
+# Database configurations
+/database/ @lippytm
+
+# Documentation
+/docs/ @lippytm
+*.md @lippytm

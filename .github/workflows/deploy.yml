@@ -1,0 +1,157 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
+        default: 'dev'
+
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC
+
+jobs:
+  deploy:
+    name: Deploy to ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: ${{ github.event_name == 'workflow_dispatch' &&
+          fromJSON(format('["{0}"]', inputs.environment)) ||
+          fromJSON('["dev"]') }}
+    environment:
+      name: ${{ matrix.environment }}
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+
+      - name: Configure AWS credentials (OIDC)
+        if: false  # Enable when AWS OIDC is configured
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+
+      - name: Configure Azure credentials (OIDC)
+        if: false  # Enable when Azure OIDC is configured
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure GCP credentials (OIDC)
+        if: false  # Enable when GCP OIDC is configured
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set environment variables
+        run: |
+          echo "Setting environment variables for ${{ matrix.environment }}"
+          # Placeholder for environment-specific configuration
+          # Real values should be set in GitHub Environment Secrets/Variables
+          # Example secret placeholders (set in GitHub Secrets):
+          # - WEB3_RPC_URL: Web3 RPC endpoint URL
+          # - OPENAI_API_KEY: OpenAI API key for AI features
+          # - SLACK_BOT_TOKEN: Slack bot integration token
+          # - DISCORD_BOT_TOKEN: Discord bot integration token
+          # - DB_URL: Database connection string
+          # - S3_BUCKET: AWS S3 bucket name or cloud storage bucket
+          # Example variable placeholders (set in GitHub Variables):
+          # - FRONTEND_URL: Frontend application URL
+          # - BACKEND_URL: Backend API URL
+          # - CDN_URL: CDN endpoint URL
+          echo "Environment: ${{ matrix.environment }}"
+          echo "Deployment target configured"
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+        env:
+          # These should be set in GitHub Environment Secrets
+          REACT_APP_API_URL: ${{ vars.BACKEND_URL || 'http://localhost:3001' }}
+          REACT_APP_ENV: ${{ matrix.environment }}
+
+      - name: Build backend
+        working-directory: backend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to cloud provider
+        id: deploy
+        run: |
+          echo "Deployment to ${{ matrix.environment }} would happen here"
+          echo "Required secrets (set in GitHub Environment Secrets):"
+          echo "  - WEB3_RPC_URL: Web3 RPC endpoint"
+          echo "  - OPENAI_API_KEY: OpenAI API key"
+          echo "  - SLACK_BOT_TOKEN: Slack integration token"
+          echo "  - DISCORD_BOT_TOKEN: Discord integration token"
+          echo "  - DB_URL: Database connection string"
+          echo "  - S3_BUCKET: Cloud storage bucket name"
+          echo ""
+          echo "Example deployment commands (uncomment when configured):"
+          echo "  # AWS S3/CloudFront:"
+          echo "  # aws s3 sync frontend/build s3://\${{ vars.S3_BUCKET }} ..."
+          echo ""
+          echo "  # Azure Static Web Apps:"
+          echo "  # az staticwebapp deploy ..."
+          echo ""
+          echo "  # GCP App Engine:"
+          echo "  # gcloud app deploy ..."
+          echo ""
+          echo "  # Cloudflare Pages:"
+          echo "  # npx wrangler pages deploy ..."
+          # Set deployment URL based on environment
+          if [ "${{ matrix.environment }}" == "prod" ]; then
+            echo "url=https://app.example.com" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.environment }}" == "stage" ]; then
+            echo "url=https://stage.app.example.com" >> $GITHUB_OUTPUT
+          else
+            echo "url=https://dev.app.example.com" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Database migrations
+        run: |
+          echo "Database migrations would run here"
+          echo "Using DB_URL from environment secrets"
+          # Example: npm run migrate
+        env:
+          DATABASE_URL: ${{ secrets.DB_URL }}
+
+      - name: Health check
+        run: |
+          echo "Health check for deployment at ${{ steps.deploy.outputs.url }}"
+          # Example: curl -f ${{ steps.deploy.outputs.url }}/health || exit 1
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          echo "Deployment ${{ job.status }} for environment: ${{ matrix.environment }}"
+          # Example Slack notification (requires SLACK_WEBHOOK_URL):
+          # curl -X POST -H 'Content-type: application/json' \
+          #   --data '{"text":"Deployment: ${{ job.status }}"}' \
+          #   ${{ secrets.SLACK_WEBHOOK_URL }}
