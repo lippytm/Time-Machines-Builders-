@@ -85,6 +85,28 @@ export interface MessagingConfig {
     token: string;
     clientId?: string;
   };
+  manychat: {
+    apiKey: string;
+    baseUrl?: string;
+  };
+  botbuilders: {
+    apiKey: string;
+    apiSecret?: string;
+    baseUrl?: string;
+    workspaceId?: string;
+  };
+  openclaw: {
+    apiKey: string;
+    apiSecret?: string;
+    baseUrl?: string;
+    projectId?: string;
+  };
+  moltbook: {
+    apiKey: string;
+    apiSecret?: string;
+    baseUrl?: string;
+    appId?: string;
+  };
 }
 
 export interface DataConfig {
@@ -175,6 +197,28 @@ export function loadSDKConfig(): SDKConfig {
       discord: {
         token: process.env.DISCORD_BOT_TOKEN || '',
         clientId: process.env.DISCORD_CLIENT_ID,
+      },
+      manychat: {
+        apiKey: process.env.MANYCHAT_API_KEY || '',
+        baseUrl: process.env.MANYCHAT_BASE_URL,
+      },
+      botbuilders: {
+        apiKey: process.env.BOTBUILDERS_API_KEY || '',
+        apiSecret: process.env.BOTBUILDERS_API_SECRET,
+        baseUrl: process.env.BOTBUILDERS_BASE_URL,
+        workspaceId: process.env.BOTBUILDERS_WORKSPACE_ID,
+      },
+      openclaw: {
+        apiKey: process.env.OPENCLAW_API_KEY || '',
+        apiSecret: process.env.OPENCLAW_API_SECRET,
+        baseUrl: process.env.OPENCLAW_BASE_URL,
+        projectId: process.env.OPENCLAW_PROJECT_ID,
+      },
+      moltbook: {
+        apiKey: process.env.MOLTBOOK_API_KEY || '',
+        apiSecret: process.env.MOLTBOOK_API_SECRET,
+        baseUrl: process.env.MOLTBOOK_BASE_URL,
+        appId: process.env.MOLTBOOK_APP_ID,
       },
     },
     data: {

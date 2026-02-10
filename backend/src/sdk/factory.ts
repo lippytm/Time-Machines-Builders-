@@ -62,7 +62,7 @@ export class SDKFactory {
 
   /**
    * Create Messaging adapter
-   * @param platform - 'slack' | 'discord'
+   * @param platform - 'slack' | 'discord' | 'manychat' | 'botbuilders' | 'openclaw' | 'moltbook'
    */
   createMessagingAdapter(platform: string): BaseAdapter {
     switch (platform) {
@@ -70,6 +70,14 @@ export class SDKFactory {
         return this.createSlackAdapter();
       case 'discord':
         return this.createDiscordAdapter();
+      case 'manychat':
+        return this.createManyChatAdapter();
+      case 'botbuilders':
+        return this.createBotBuildersAdapter();
+      case 'openclaw':
+        return this.createOpenClawAdapter();
+      case 'moltbook':
+        return this.createMoltbookAdapter();
       default:
         throw new Error(`Unknown messaging platform: ${platform}`);
     }
@@ -158,6 +166,26 @@ export class SDKFactory {
   private createDiscordAdapter(): BaseAdapter {
     const { lazy } = require('./messaging/discord.adapter');
     return lazy(this.config.messaging.discord);
+  }
+
+  private createManyChatAdapter(): BaseAdapter {
+    const { lazy } = require('./messaging/manychat.adapter');
+    return lazy(this.config.messaging.manychat);
+  }
+
+  private createBotBuildersAdapter(): BaseAdapter {
+    const { lazy } = require('./messaging/botbuilders.adapter');
+    return lazy(this.config.messaging.botbuilders);
+  }
+
+  private createOpenClawAdapter(): BaseAdapter {
+    const { lazy } = require('./messaging/openclaw.adapter');
+    return lazy(this.config.messaging.openclaw);
+  }
+
+  private createMoltbookAdapter(): BaseAdapter {
+    const { lazy } = require('./messaging/moltbook.adapter');
+    return lazy(this.config.messaging.moltbook);
   }
 
   // Data Adapters

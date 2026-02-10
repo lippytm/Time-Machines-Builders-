@@ -35,6 +35,10 @@ This repository integrates with:
 ### Messaging & Communication
 - ✅ **Slack** - Slack API integration
 - ✅ **Discord** - Discord bot integration
+- ✅ **ManyChat** - Chatbot platform for Facebook Messenger, Instagram, WhatsApp, SMS, and Email
+- ✅ **BotBuilders** - Conversational AI bot building and deployment platform
+- ✅ **OpenClaw** - Open-source conversational AI and chatbot automation
+- ✅ **Moltbook** - Social networking and messaging integration platform
 
 ### Data & Storage
 - ✅ **PostgreSQL** - Relational database
@@ -107,6 +111,14 @@ This repository includes a comprehensive SDK with adapters for AI, Web3, messagi
   - Env vars: `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`
 - **Discord** - Discord bot integration
   - Env vars: `DISCORD_BOT_TOKEN`, `DISCORD_CLIENT_ID`
+- **ManyChat** - Chatbot platform for Facebook Messenger, Instagram, WhatsApp
+  - Env vars: `MANYCHAT_API_KEY`, `MANYCHAT_BASE_URL` (optional)
+- **BotBuilders** - Conversational AI bot building platform
+  - Env vars: `BOTBUILDERS_API_KEY`, `BOTBUILDERS_API_SECRET`, `BOTBUILDERS_BASE_URL`, `BOTBUILDERS_WORKSPACE_ID`
+- **OpenClaw** - Open-source conversational AI automation
+  - Env vars: `OPENCLAW_API_KEY`, `OPENCLAW_API_SECRET`, `OPENCLAW_BASE_URL`, `OPENCLAW_PROJECT_ID`
+- **Moltbook** - Social networking and messaging platform
+  - Env vars: `MOLTBOOK_API_KEY`, `MOLTBOOK_API_SECRET`, `MOLTBOOK_BASE_URL`, `MOLTBOOK_APP_ID`
 
 ### Data Providers
 
@@ -146,6 +158,11 @@ const evm = factory.createWeb3Adapter('evm');
 
 // Create messaging adapter
 const slack = factory.createMessagingAdapter('slack');
+const discord = factory.createMessagingAdapter('discord');
+const manychat = factory.createMessagingAdapter('manychat');
+const botbuilders = factory.createMessagingAdapter('botbuilders');
+const openclaw = factory.createMessagingAdapter('openclaw');
+const moltbook = factory.createMessagingAdapter('moltbook');
 
 // Create data adapter
 const redis = factory.createDataAdapter('redis');
@@ -179,6 +196,10 @@ This will display the status of all configured adapters and providers.
   - Solana RPC URL (for Solana blockchain)
   - Slack Bot Token (for Slack integration)
   - Discord Bot Token (for Discord integration)
+  - ManyChat API key (for ManyChat integration)
+  - BotBuilders API key (for BotBuilders integration)
+  - OpenClaw API key (for OpenClaw integration)
+  - Moltbook API key (for Moltbook integration)
   - AWS credentials (for S3 storage)
   - IPFS credentials (for decentralized storage)
   - n8n webhook URL
