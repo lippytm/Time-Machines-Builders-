@@ -34,6 +34,11 @@ export interface AIConfig {
   llamaindex: {
     enabled: boolean;
   };
+  // OpenClaw
+  openclaw: {
+    apiKey: string;
+    baseUrl?: string;
+  };
   // Vector Stores (optional heavy dependencies)
   vectorStores: {
     pinecone?: {
@@ -131,6 +136,10 @@ export function loadSDKConfig(): SDKConfig {
       },
       llamaindex: {
         enabled: process.env.LLAMAINDEX_ENABLED === 'true',
+      },
+      openclaw: {
+        apiKey: process.env.OPENCLAW_API_KEY || '',
+        baseUrl: process.env.OPENCLAW_BASE_URL,
       },
       vectorStores: {
         pinecone: process.env.PINECONE_API_KEY ? {

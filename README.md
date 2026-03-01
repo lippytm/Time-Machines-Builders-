@@ -23,6 +23,7 @@ This repository integrates with:
 - ✅ **Huggingface** - AI model training and deployment
 - ✅ **LangChain** - AI application framework
 - ✅ **LlamaIndex** - Data framework for LLM applications
+- ✅ **OpenClaw** - Web intelligence and data extraction
 - ✅ **Vector Stores** - Pinecone, Weaviate, Chroma (optional)
 - ✅ **GitHub Actions** - Automated workflows and CI/CD
 - ✅ **Full Stack Application** - React frontend + Node.js backend
@@ -77,6 +78,8 @@ This repository includes a comprehensive SDK with adapters for AI, Web3, messagi
   - Env var: `LANGCHAIN_ENABLED=true`
 - **LlamaIndex** - Data framework for LLM applications
   - Env var: `LLAMAINDEX_ENABLED=true`
+- **OpenClaw** - Web intelligence and data extraction
+  - Env vars: `OPENCLAW_API_KEY`, `OPENCLAW_BASE_URL`
 
 #### Vector Stores (Optional - Heavy Dependencies)
 - **Pinecone** - Managed vector database

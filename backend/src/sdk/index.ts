@@ -13,6 +13,7 @@ export * from './ai/openai.adapter';
 export * from './ai/huggingface.adapter';
 export * from './ai/langchain.adapter';
 export * from './ai/llamaindex.adapter';
+export * from './ai/openclaw.adapter';
 export * from './ai/pinecone.adapter';
 export * from './ai/weaviate.adapter';
 export * from './ai/chroma.adapter';

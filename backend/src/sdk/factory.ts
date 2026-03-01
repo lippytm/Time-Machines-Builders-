@@ -26,7 +26,7 @@ export class SDKFactory {
 
   /**
    * Create AI adapter
-   * @param provider - 'openai' | 'huggingface' | 'langchain' | 'llamaindex'
+   * @param provider - 'openai' | 'huggingface' | 'langchain' | 'llamaindex' | 'openclaw'
    */
   createAIAdapter(provider: string): BaseAdapter {
     switch (provider) {
@@ -38,6 +38,8 @@ export class SDKFactory {
         return this.createLangChainAdapter();
       case 'llamaindex':
         return this.createLlamaIndexAdapter();
+      case 'openclaw':
+        return this.createOpenClawAdapter();
       default:
         throw new Error(`Unknown AI provider: ${provider}`);
     }
@@ -131,6 +133,11 @@ export class SDKFactory {
   private createLlamaIndexAdapter(): BaseAdapter {
     const { lazy } = require('./ai/llamaindex.adapter');
     return lazy(this.config.ai.llamaindex);
+  }
+
+  private createOpenClawAdapter(): BaseAdapter {
+    const { lazy } = require('./ai/openclaw.adapter');
+    return lazy(this.config.ai.openclaw);
   }
 
   // Web3 Adapters
