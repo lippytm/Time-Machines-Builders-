@@ -39,7 +39,11 @@ async function testConfigLoader() {
     // Display Messaging configuration
     console.log('💬 Messaging Configuration:');
     console.log(`  Slack: ${config.messaging.slack.token ? '✓ Configured' : '✗ Not configured'}`);
-    console.log(`  Discord: ${config.messaging.discord.token ? '✓ Configured' : '✗ Not configured'}\n`);
+    console.log(`  Discord: ${config.messaging.discord.token ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  ManyChat: ${config.messaging.manychat.apiKey ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  BotBuilders: ${config.messaging.botbuilders.apiKey ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  OpenClaw: ${config.messaging.openclaw.apiKey ? '✓ Configured' : '✗ Not configured'}`);
+    console.log(`  Moltbook: ${config.messaging.moltbook.apiKey ? '✓ Configured' : '✗ Not configured'}\n`);
 
     // Display Data configuration
     console.log('📊 Data Configuration:');

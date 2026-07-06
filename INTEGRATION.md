@@ -72,6 +72,82 @@ Integration with Cloudflare for edge computing and CDN capabilities.
 # Value: your-api-token
 ```
 
+### ManyChat
+Integration with ManyChat for chatbot automation across Facebook Messenger, Instagram, WhatsApp, SMS, and Email.
+
+**Setup:**
+```bash
+# Add your ManyChat API key as a repository secret or environment variable
+# Name: MANYCHAT_API_KEY
+# Value: your-api-key
+```
+
+**Features:**
+- Send messages to subscribers
+- Manage subscriber tags and custom fields
+- Trigger flows and broadcasts
+- Cross-platform messaging (Messenger, Instagram, WhatsApp, SMS, Email)
+
+### BotBuilders
+Integration with BotBuilders platform for creating and managing conversational AI bots.
+
+**Setup:**
+```bash
+# Add your BotBuilders API credentials as repository secrets or environment variables
+# Name: BOTBUILDERS_API_KEY
+# Value: your-api-key
+# Name: BOTBUILDERS_API_SECRET (optional)
+# Value: your-api-secret
+# Name: BOTBUILDERS_WORKSPACE_ID (optional)
+# Value: your-workspace-id
+```
+
+**Features:**
+- Create and manage bots
+- Deploy to multiple channels
+- Train conversational AI models
+- Access conversation analytics
+
+### OpenClaw
+Integration with OpenClaw for open-source conversational AI and chatbot automation.
+
+**Setup:**
+```bash
+# Add your OpenClaw API credentials as repository secrets or environment variables
+# Name: OPENCLAW_API_KEY
+# Value: your-api-key
+# Name: OPENCLAW_API_SECRET (optional)
+# Value: your-api-secret
+# Name: OPENCLAW_PROJECT_ID (optional)
+# Value: your-project-id
+```
+
+**Features:**
+- Session-based conversations
+- NLU (Natural Language Understanding) training
+- Intent and entity management
+- Open-source conversational AI
+
+### Moltbook
+Integration with Moltbook for social networking and messaging capabilities.
+
+**Setup:**
+```bash
+# Add your Moltbook API credentials as repository secrets or environment variables
+# Name: MOLTBOOK_API_KEY
+# Value: your-api-key
+# Name: MOLTBOOK_API_SECRET (optional)
+# Value: your-api-secret
+# Name: MOLTBOOK_APP_ID (optional)
+# Value: your-app-id
+```
+
+**Features:**
+- Send messages to users
+- Create and manage group conversations
+- Post content to feeds
+- Manage user connections and profiles
+
 ## Workflow Architecture
 
 ### CI/CD Pipeline (.github/workflows/ci.yml)
@@ -101,6 +177,13 @@ Navigate to your repository settings and add the following secrets:
 HUGGINGFACE_API_KEY    # For AI model integration
 N8N_WEBHOOK_URL        # For automation workflows
 CLOUDFLARE_API_TOKEN   # For edge computing
+MANYCHAT_API_KEY       # For ManyChat chatbot integration
+BOTBUILDERS_API_KEY    # For BotBuilders platform
+BOTBUILDERS_API_SECRET # Optional BotBuilders secret
+OPENCLAW_API_KEY       # For OpenClaw conversational AI
+OPENCLAW_API_SECRET    # Optional OpenClaw secret
+MOLTBOOK_API_KEY       # For Moltbook messaging platform
+MOLTBOOK_API_SECRET    # Optional Moltbook secret
 ```
 
 ### 2. Repository Dispatch Setup
