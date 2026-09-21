@@ -14,6 +14,21 @@ import {
 import { apiService } from '../../services/api.service';
 import { AIOutput } from '../../types';
 
+const jarvisTeamRoles = [
+  {
+    title: 'AI Jarvis Assistant',
+    description: 'Coordinates AI task execution and keeps workflows moving across the platform.',
+  },
+  {
+    title: 'Engineer Manager',
+    description: 'Guides engineering priorities and ensures technical delivery quality.',
+  },
+  {
+    title: 'Communications Manager',
+    description: 'Keeps updates clear and aligned across teams and stakeholders.',
+  },
+];
+
 const Dashboard: React.FC = () => {
   const [history, setHistory] = useState<AIOutput[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,6 +90,26 @@ const Dashboard: React.FC = () => {
       </Grid>
 
       <Paper sx={{ p: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          AI Jarvis Team
+        </Typography>
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          {jarvisTeamRoles.map((role) => (
+            <Grid size={4} key={role.title}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="subtitle1" gutterBottom>
+                    {role.title}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {role.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
         <Typography variant="h6" gutterBottom>
           Recent Activity
         </Typography>
