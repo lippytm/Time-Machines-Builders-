@@ -95,13 +95,13 @@ const Dashboard: React.FC = () => {
         </Typography>
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {jarvisTeamRoles.map((role) => (
-            <Grid size={4} key={role.title}>
+            <Grid size={{ xs: 12, md: 4 }} key={role.title}>
               <Card variant="outlined">
                 <CardContent>
                   <Typography variant="subtitle1" gutterBottom>
                     {role.title}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="text.secondary">
                     {role.description}
                   </Typography>
                 </CardContent>
