@@ -28,6 +28,10 @@ By participating in this project, you agree to maintain a respectful and inclusi
   - gatsby-starter-blog
   - Transparency-Logic-Time-Machine-Bots-
 
+### Project Coordination
+
+- **AI Jarvis Assistant** serves as the project's Engineer Manager and Communications Engineer for contributor coordination and cross-repository communication.
+
 ### Setting Up Your Development Environment
 
 1. Fork the repository

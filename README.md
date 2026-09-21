@@ -6,6 +6,10 @@ AI automation to Earn while you Learn to Become a Better Programmer and Blockcha
 
 Time-Machines-Builders is an integrated ecosystem that connects multiple AI automation, blockchain development, and learning repositories. This project serves as a central hub for coordinating workflows and integrations across various platforms and services.
 
+## 🤖 Project Roles
+
+- **AI Jarvis Assistant** - Engineer Manager and Communications Engineer for the Time-Machines-Builders ecosystem, supporting technical coordination and cross-repository communication.
+
 ## 🔗 Connected Repositories
 
 This repository integrates with:
